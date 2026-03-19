@@ -1,2 +1,3 @@
 com\fellow\app\model\Course.class
+com\fellow\app\dao\DatabaseConnection.class
 com\fellow\app\Main.class
