@@ -1,5 +1,5 @@
 package com.fellow.app.model;
 
-public class TodoItemDAO {
+public class TodoItem {
     
 }

@@ -9,7 +9,6 @@ com\fellow\app\controller\TodoController.class
 com\fellow\app\controller\MainController.class
 com\fellow\app\model\StudySessionDAO.class
 com\fellow\app\util\DateTimeUtil.class
-com\fellow\app\model\TodoItemDAO.class
 com\fellow\app\dao\TodoItemDAO.class
 com\fellow\app\service\EventService.class
 com\fellow\app\service\StatisticsService.class
