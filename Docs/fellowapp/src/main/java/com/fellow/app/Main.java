@@ -1,6 +1,9 @@
 package com.fellow.app;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import com.fellow.app.dao.DatabaseConnection;
 
@@ -9,7 +12,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         
-        // Veritabanını başlat
+        // 1. Initialize the Database
         try {
             DatabaseConnection.initializeDatabase();
         } catch (Exception e) {
@@ -17,18 +20,21 @@ public class Main extends Application {
             e.printStackTrace();
         }
         
-        // Pencereyi aç
+        // 2. Load the FXML Design (This is what prevents the white screen!)
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
+        Parent root = loader.load();
+        
+        // 3. Set up the Scene and Show the Window
         primaryStage.setTitle("Fellow - Academic Study Manager");
-        primaryStage.setWidth(1000);
-        primaryStage.setHeight(700);
+        primaryStage.setScene(new Scene(root, 1000, 700));
         primaryStage.show();
         
-        System.out.println("✅ Fellow started successfully!");
+        System.out.println("✅ Fellow started successfully with UI!");
     }
     
     @Override
     public void stop() throws Exception {
-        // Uygulama kapanırken veritabanı bağlantısını kapat
+        // Close database connection when application stops
         DatabaseConnection.closeConnection();
         super.stop();
     }
