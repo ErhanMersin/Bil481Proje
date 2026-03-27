@@ -1,4 +1,4 @@
-package com.fellow.app.dao;
+package com.fellow.app.model;
 
 public class StudySession {
     
