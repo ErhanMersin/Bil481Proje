@@ -1,67 +1,91 @@
-/* --- 1. MAIN BACKGROUND (DARK MODE) --- */
+/* ─────────────────────────────────────────────────────────────────────────────
+   Fellow — Global Stylesheet
+   Dark theme with blue accents
+───────────────────────────────────────────────────────────────────────────── */
+
+/* 1. ROOT */
 .root {
     -fx-background-color: #1e1e1e;
     -fx-font-family: "Segoe UI", Arial, sans-serif;
-    
-    /* Forest green focus ring (removes yellow/blue borders) */
-    -fx-focus-color: #228B22; 
+    -fx-focus-color: #1d8fbd;
     -fx-faint-focus-color: transparent;
 }
 
-/* --- 2. BUTTONS (FOREST GREEN) --- */
+/* 2. DEFAULT BUTTON (Pomodoro buttons — pink, unchanged) */
 .button {
     -fx-background-color: #b35689;
     -fx-text-fill: white;
-    -fx-font-size: 16px;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-background-radius: 8px;
     -fx-padding: 10px 25px;
     -fx-cursor: hand;
 }
-
-/* Darker green when hovering */
 .button:hover {
-    -fx-background-color: #7c174f; 
+    -fx-background-color: #7c174f;
 }
 
-/* --- 3. TIMER LABEL (HUGE & STRICTLY WHITE) --- */
-/* The '#' targets the specific fx:id="timerLabel" */
+/* 3. PRIMARY BUTTON — blue background, white text */
+.btn-primary {
+    -fx-background-color: #1d8fbd;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 22px;
+    -fx-cursor: hand;
+}
+.btn-primary:hover {
+    -fx-background-color: #0d1d2c;
+}
+
+/* 4. TIMER LABEL */
 #timerLabel {
-    -fx-text-fill: #ffffff !important; 
+    -fx-text-fill: #ffffff !important;
     -fx-font-size: 80px !important;
-    -fx-opacity: 1.0 !important; /* Prevents JavaFX from making it gray */
+    -fx-opacity: 1.0 !important;
     -fx-font-weight: bold;
 }
 
-/* --- 4. TABS (DARK MODE STYLING) --- */
+/* 5. TAB PANE */
 .tab-pane {
     -fx-background-color: #1e1e1e;
 }
-
-/* The bar behind the tabs */
 .tab-pane .tab-header-area .tab-header-background {
-    -fx-background-color: #121212; 
+    -fx-background-color: #121212;
 }
-
-/* Unselected tabs */
 .tab {
     -fx-background-color: #2d2d2d;
-    -fx-padding: 10px 30px;
+    -fx-padding: 10px 28px;
 }
-
-/* Unselected tab text */
 .tab .tab-label {
-    -fx-text-fill: #aaaaaa; 
-    -fx-font-size: 14px;
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 13px;
     -fx-font-weight: bold;
 }
-
-/* Selected tab background (Forest Green) */
 .tab:selected {
-    -fx-background-color: #228B22; 
+    -fx-background-color: #1d8fbd;
+}
+.tab:selected .tab-label {
+    -fx-text-fill: #ffffff;
 }
 
-/* Selected tab text (White) */
-.tab:selected .tab-label {
-    -fx-text-fill: #ffffff; 
+/* 6. LIST VIEW */
+.list-view {
+    -fx-background-color: #2d2d2d;
+    -fx-background-radius: 8px;
+    -fx-border-color: #3a3a3a;
+    -fx-border-radius: 8px;
+}
+.list-view .list-cell {
+    -fx-background-color: #2d2d2d;
+    -fx-text-fill: #cccccc;
+    -fx-padding: 8px 12px;
+}
+.list-view .list-cell:hover {
+    -fx-background-color: #3a3a3a;
+}
+.list-view .list-cell:selected {
+    -fx-background-color: #0d1d2c;
+    -fx-text-fill: #ffffff;
 }

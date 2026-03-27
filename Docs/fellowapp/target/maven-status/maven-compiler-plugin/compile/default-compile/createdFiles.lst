@@ -13,6 +13,7 @@ com\fellow\app\model\TodoItemDAO.class
 com\fellow\app\dao\TodoItemDAO.class
 com\fellow\app\service\EventService.class
 com\fellow\app\service\StatisticsService.class
+com\fellow\app\controller\HomeController.class
 com\fellow\app\dao\CourseDAO.class
 com\fellow\app\model\Course.class
 com\fellow\app\dao\EventDAO.class
