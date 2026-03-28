@@ -69,8 +69,11 @@ public class DatabaseConnection {
             }
             
             statement.close();
-            System.out.println("✅ Database created successfully!");
             
+            // Seed base data to satisfy NOT NULL constraints without User/Course modules built yet
+            seedDummyData(conn);
+            
+            System.out.println("✅ Database created successfully!");
         } catch (Exception e) {
             System.err.println("❌ Error creating database: " + e.getMessage());
             throw new SQLException(e);
@@ -89,6 +92,45 @@ public class DatabaseConnection {
             }
         } catch (SQLException e) {
             System.err.println("Error closing connection: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Seeds dummy data required for other models to function without errors
+     */
+    private static void seedDummyData(Connection conn) {
+        try {
+            Statement stmt = conn.createStatement();
+            
+            // Check if dummy user exists
+            java.sql.ResultSet rs = stmt.executeQuery("SELECT count(*) FROM users WHERE id = 1");
+            rs.next();
+            if (rs.getInt(1) == 0) {
+                stmt.execute("INSERT INTO users (id, name, email) VALUES (1, 'Test User', 'test@fellow.app')");
+            }
+            rs.close();
+            
+            // Check if dummy course exists
+            rs = stmt.executeQuery("SELECT count(*) FROM courses WHERE id = 1");
+            rs.next();
+            if (rs.getInt(1) == 0) {
+                stmt.execute("INSERT INTO courses (id, name, color_hex, user_id) VALUES (1, 'Genel', '#6366f1', 1)");
+            }
+            rs.close();
+            
+            // Check if dummy events exist
+            rs = stmt.executeQuery("SELECT count(*) FROM events WHERE user_id = 1");
+            rs.next();
+            if (rs.getInt(1) == 0) {
+                stmt.execute("INSERT INTO events (title, type, course_id, event_date, event_time, description, user_id, created_date) VALUES ('C++ Algoritmalar Finali', 'EXAM', 1, '2026-06-15', '14:00', 'Çalış', 1, '2026-03-25 10:00:00')");
+                stmt.execute("INSERT INTO events (title, type, course_id, event_date, event_time, description, user_id, created_date) VALUES ('Veri Yapıları Ağaç Projesi', 'PROJECT', 1, '2026-04-10', '23:59', 'Teslim tarihi', 1, '2026-03-28 10:00:00')");
+                stmt.execute("INSERT INTO events (title, type, course_id, event_date, event_time, description, user_id, created_date) VALUES ('Matematik Ödevi', 'HOMEWORK', 1, '2026-04-05', '09:00', 'Sayfa 50', 1, '2026-03-27 10:00:00')");
+            }
+            rs.close();
+            
+            stmt.close();
+        } catch (Exception e) {
+            System.err.println("❌ Error seeding database: " + e.getMessage());
         }
     }
 }

@@ -26,6 +26,7 @@ public class MainController {
 
     private Timeline timeline;
     private int     timeSeconds = 25 * 60;
+    private int     defaultTimeSeconds = 25 * 60;
     private boolean isRunning   = false;
 
     // ── Initialization ────────────────────────────────────────────────────────
@@ -35,17 +36,36 @@ public class MainController {
         // Select Home tab on startup
         mainTabPane.getSelectionModel().select(tabHome);
 
-        // Refresh Home dashboard whenever the user switches back to it
         mainTabPane.getSelectionModel().selectedItemProperty().addListener(
             (obs, oldTab, newTab) -> {
-                if (newTab == tabHome && homeViewController != null) {
+                if (newTab != null && "tabHome".equals(newTab.getId()) && homeViewController != null) {
                     homeViewController.refresh();
                 }
             }
         );
     }
 
-    // ── Pomodoro handlers (unchanged) ─────────────────────────────────────────
+    // ── Pomodoro handlers ─────────────────────────────────────────────────────
+
+    @FXML
+    public void handleIncrementTime(ActionEvent event) {
+        if (!isRunning) {
+            defaultTimeSeconds += 5 * 60;
+            if (defaultTimeSeconds > 120 * 60) defaultTimeSeconds = 120 * 60;
+            timeSeconds = defaultTimeSeconds;
+            updateLabel();
+        }
+    }
+
+    @FXML
+    public void handleDecrementTime(ActionEvent event) {
+        if (!isRunning) {
+            defaultTimeSeconds -= 5 * 60;
+            if (defaultTimeSeconds < 5 * 60) defaultTimeSeconds = 5 * 60;
+            timeSeconds = defaultTimeSeconds;
+            updateLabel();
+        }
+    }
 
     @FXML
     public void handleStart(ActionEvent event) {
@@ -62,13 +82,15 @@ public class MainController {
                 timeSeconds--;
                 updateLabel();
                 if (timeSeconds <= 0) {
+                    new com.fellow.app.dao.StudySessionDAO().addSession(1, 1, defaultTimeSeconds, 1);
                     handleReset(null);
-                    System.out.println("Session completed!");
+                    System.out.println("Session completed and saved!");
                 }
             }));
             timeline.setCycleCount(Timeline.INDEFINITE);
         }
         timeline.play();
+        updateLabel();
     }
 
     @FXML
@@ -77,6 +99,7 @@ public class MainController {
             timeline.pause();
             isRunning = false;
             startButton.setText("Resume");
+            updateLabel();
             System.out.println("Timer paused at: " + timerLabel.getText());
         }
     }
@@ -87,15 +110,25 @@ public class MainController {
             timeline.stop();
         }
         isRunning   = false;
-        timeSeconds = 25 * 60;
+        timeSeconds = defaultTimeSeconds;
         updateLabel();
         startButton.setText("Start");
-        System.out.println("Timer reset to 25:00");
+        System.out.println("Timer reset to " + (defaultTimeSeconds / 60) + ":00");
     }
 
     private void updateLabel() {
         int minutes = timeSeconds / 60;
         int seconds = timeSeconds % 60;
-        timerLabel.setText(String.format("%02d:%02d", minutes, seconds));
+        String text = String.format("%02d:%02d", minutes, seconds);
+        timerLabel.setText(text);
+        if (homeViewController != null) {
+            homeViewController.updateMiniTimer(text, isRunning);
+        }
+    }
+
+    @FXML
+    public void handleMiniMode(ActionEvent event) {
+        // Switch to the Home tab where the embedded mini timer is displayed
+        mainTabPane.getSelectionModel().select(tabHome);
     }
 }

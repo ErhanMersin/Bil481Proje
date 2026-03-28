@@ -32,11 +32,10 @@
                     </content>
                 </Tab>
 
-                <!-- ② CALENDAR — empty for now -->
+                <!-- ② CALENDAR -->
                 <Tab fx:id="tabCalendar" text="Calendar">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0"
-                                    prefHeight="180.0" prefWidth="200.0"/>
+                        <fx:include fx:id="calendarView" source="CalendarView.fxml"/>
                     </content>
                 </Tab>
 
@@ -52,11 +51,17 @@
                                       AnchorPane.rightAnchor="0.0"
                                       AnchorPane.topAnchor="0.0">
                                     <children>
-                                        <Label fx:id="timerLabel" text="25:00" textAlignment="CENTER">
-                                            <font>
-                                                <Font name="System Bold" size="80.0"/>
-                                            </font>
-                                        </Label>
+                                        <HBox alignment="CENTER" spacing="30.0">
+                                            <children>
+                                                <Button mnemonicParsing="false" onAction="#handleDecrementTime" text="-" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-background-radius: 50; -fx-min-width: 50px; -fx-min-height: 50px;"/>
+                                                <Label fx:id="timerLabel" text="25:00" textAlignment="CENTER" minWidth="220" alignment="CENTER">
+                                                    <font>
+                                                        <Font name="System Bold" size="80.0"/>
+                                                    </font>
+                                                </Label>
+                                                <Button mnemonicParsing="false" onAction="#handleIncrementTime" text="+" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-background-radius: 50; -fx-min-width: 50px; -fx-min-height: 50px;"/>
+                                            </children>
+                                        </HBox>
                                         <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="20.0">
                                             <children>
                                                 <Button fx:id="resetButton" mnemonicParsing="false" onAction="#handleReset" styleClass="button-reset" text="Reset"/>
@@ -66,16 +71,17 @@
                                         </HBox>
                                     </children>
                                 </VBox>
+                                
+                                <Button AnchorPane.topAnchor="15.0" AnchorPane.rightAnchor="15.0" mnemonicParsing="false" onAction="#handleMiniMode" text="⤢" style="-fx-background-color: transparent; -fx-text-fill: #bbbbbb; -fx-font-size: 28px; -fx-cursor: hand;" />
                             </children>
                         </AnchorPane>
                     </content>
                 </Tab>
 
-                <!-- ④ TODO — empty for now -->
+                <!-- ④ TODO -->
                 <Tab fx:id="tabTodo" text="Todo">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0"
-                                    prefHeight="180.0" prefWidth="200.0"/>
+                        <fx:include fx:id="todoView" source="TodoView.fxml"/>
                     </content>
                 </Tab>
 
