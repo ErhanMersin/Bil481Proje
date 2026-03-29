@@ -76,18 +76,20 @@ public class TodoController {
             });
 
             topicText = new Text();
-            topicText.setFill(Color.WHITE);
+            topicText.getStyleClass().add("todo-topic-text");
             topicText.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
             descLabel = new Label();
-            descLabel.setStyle("-fx-text-fill: #aaaaaa; -fx-font-size: 12px;");
+            descLabel.getStyleClass().add("todo-desc-label");
+            descLabel.setStyle("-fx-font-size: 12px;");
 
             textContainer = new VBox(topicText, descLabel);
             HBox.setHgrow(textContainer, Priority.ALWAYS);
             textContainer.setSpacing(2);
 
-            btnDelete = new Button("Sil");
-            btnDelete.setStyle("-fx-background-color: transparent; -fx-text-fill: #ff6b6b; -fx-cursor: hand;");
+            btnDelete = new Button("Delete");
+            btnDelete.getStyleClass().add("todo-delete-button");
+            btnDelete.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
             btnDelete.setOnAction(e -> {
                 TodoItem item = getItem();
                 if (item != null) {
@@ -98,7 +100,7 @@ public class TodoController {
 
             content = new HBox(checkBox, textContainer, btnDelete);
             content.setSpacing(15);
-            content.setStyle("-fx-padding: 10px; -fx-background-color: #2d2d2d; -fx-background-radius: 5px;");
+            content.getStyleClass().add("todo-item-cell");
             content.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
         }
 
@@ -119,7 +121,7 @@ public class TodoController {
                 topicText.setFill(Color.gray(0.5));
             } else {
                 topicText.setStrikethrough(false);
-                topicText.setFill(Color.WHITE);
+                topicText.setFill(null);
             }
         }
 

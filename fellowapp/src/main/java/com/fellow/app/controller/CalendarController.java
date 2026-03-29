@@ -90,21 +90,21 @@ public class CalendarController {
     private VBox createDayCell(LocalDate date, List<Event> monthEvents) {
         VBox cell = new VBox();
         cell.setAlignment(Pos.TOP_LEFT);
-        cell.setStyle("-fx-background-color: #2d2d2d; -fx-background-radius: 5; -fx-padding: 8; -fx-border-color: #3a3a3a; -fx-border-width: 1; -fx-border-radius: 5;");
+        cell.getStyleClass().add("calendar-day-cell");
         
         boolean isSelected = date.equals(selectedDate);
         boolean isToday = date.equals(LocalDate.now());
 
         if (isSelected) {
-            cell.setStyle(cell.getStyle() + "-fx-border-color: #f39c12; -fx-border-width: 2;");
+            cell.getStyleClass().add("calendar-day-cell-selected");
         } else if (isToday) {
-            cell.setStyle(cell.getStyle() + "-fx-border-color: #1d8fbd; -fx-border-width: 2;");
+            cell.getStyleClass().add("calendar-day-cell-today");
         }
 
         Label lblDay = new Label(String.valueOf(date.getDayOfMonth()));
-        lblDay.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+        lblDay.getStyleClass().add("calendar-day-number");
         if (isToday && !isSelected) {
-            lblDay.setStyle("-fx-text-fill: #1d8fbd; -fx-font-weight: bold;");
+            lblDay.getStyleClass().add("today-day-number");
         }
 
         // Event dots
@@ -133,20 +133,6 @@ public class CalendarController {
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
         cell.getChildren().addAll(lblDay, spacer, dotsBox);
-
-        // Hover Effect
-        cell.setOnMouseEntered(e -> {
-            if (!date.equals(selectedDate)) {
-                cell.setStyle("-fx-background-color: #3d3d3d; -fx-background-radius: 5; -fx-padding: 8; -fx-border-color: #3a3a3a; -fx-border-width: 1; -fx-border-radius: 5;");
-                if (isToday) cell.setStyle(cell.getStyle() + "-fx-border-color: #1d8fbd; -fx-border-width: 2;");
-            }
-        });
-        cell.setOnMouseExited(e -> {
-            if (!date.equals(selectedDate)) {
-                cell.setStyle("-fx-background-color: #2d2d2d; -fx-background-radius: 5; -fx-padding: 8; -fx-border-color: #3a3a3a; -fx-border-width: 1; -fx-border-radius: 5;");
-                if (isToday) cell.setStyle(cell.getStyle() + "-fx-border-color: #1d8fbd; -fx-border-width: 2;");
-            }
-        });
 
         // Click Selection
         cell.setOnMouseClicked(e -> {
@@ -188,7 +174,14 @@ public class CalendarController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("Add New Event");
-            stage.setScene(new Scene(root));
+            Scene dialogScene = new Scene(root);
+
+            Scene parentScene = calendarGrid.getScene();
+            if (parentScene != null) {
+                dialogScene.getStylesheets().addAll(parentScene.getStylesheets());
+            }
+            
+            stage.setScene(dialogScene);
             
             // Auto select current date if valid
             if (selectedDate != null) {
@@ -234,7 +227,7 @@ public class CalendarController {
             content = new HBox(textContainer, typeLabel);
             content.setSpacing(10);
             content.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-            content.setStyle("-fx-padding: 10px; -fx-background-color: transparent; -fx-border-color: #3a3a3a; -fx-border-width: 0 0 1 0;");
+            content.getStyleClass().add("daily-event-cell");
         }
 
         @Override

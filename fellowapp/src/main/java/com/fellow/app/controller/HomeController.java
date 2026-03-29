@@ -51,19 +51,24 @@ public class HomeController {
         loadPlaceholderStats();
         
         // Setup Sorting ComboBox
-        cmbSortEvents.getItems().addAll("Tarihe Göre (Önce Teslim)", "Yeni Eklenenler (Önce Ekleme)");
+        cmbSortEvents.getItems().addAll("By Date (First Delivered)", "New Additions (Added First)");
         
-        // Fix ComboBox text color to be white instead of default gray
+        // Use theme CSS for ComboBox text color instead of hardcoded inline styles
         javafx.util.Callback<ListView<String>, ListCell<String>> cellFactory = lv -> new ListCell<String>() {
+            {
+                getStyleClass().add("combo-list-cell");
+            }
+
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty ? null : item);
-                setStyle("-fx-text-fill: white; -fx-background-color: #3a3a3a; -fx-font-weight: bold;");
             }
         };
         cmbSortEvents.setCellFactory(cellFactory);
-        cmbSortEvents.setButtonCell(cellFactory.call(null));
+        ListCell<String> buttonCell = cellFactory.call(null);
+        buttonCell.getStyleClass().add("combo-button-cell");
+        cmbSortEvents.setButtonCell(buttonCell);
         
         cmbSortEvents.getSelectionModel().selectFirst();
         cmbSortEvents.setOnAction(e -> loadEvents());
@@ -99,7 +104,7 @@ public class HomeController {
         eventsList.clear();
         String sortSelection = cmbSortEvents.getValue();
         String sortQuery = "event_date ASC";
-        if ("Yeni Eklenenler (Önce Ekleme)".equals(sortSelection)) {
+        if ("New Additions (Added First)".equals(sortSelection)) {
             sortQuery = "created_date DESC";
         }
         List<Event> events = eventDAO.getUpcomingEvents(DEMO_USER_ID, sortQuery);
@@ -134,6 +139,10 @@ public class HomeController {
             dialogStage.setResizable(false);
             
             Scene scene = new Scene(root);
+            Scene parentScene = lblDate.getScene();
+            if (parentScene != null) {
+                scene.getStylesheets().addAll(parentScene.getStylesheets());
+            }
             dialogStage.setScene(scene);
             
             AddEventController controller = loader.getController();
@@ -187,16 +196,16 @@ public class HomeController {
         public EventListCell() {
             super();
             typeLabel = new Label();
+            typeLabel.getStyleClass().add("event-type-label");
             typeLabel.setStyle("-fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-background-radius: 5;");
             typeLabel.setTextFill(Color.WHITE);
 
             titleText = new Text();
-            titleText.setFill(Color.WHITE);
+            titleText.getStyleClass().add("event-title");
             titleText.setFont(Font.font("System", FontWeight.BOLD, 16));
 
             dateText = new Text();
-            // Using a bright blue color for the date to avoid being 'faded/silik'
-            dateText.setFill(Color.web("#21a6d6")); 
+            dateText.getStyleClass().add("event-date");
             dateText.setFont(Font.font("System", FontWeight.BOLD, 14));
 
             textContainer = new VBox(titleText, dateText);
@@ -204,7 +213,8 @@ public class HomeController {
             HBox.setHgrow(textContainer, Priority.ALWAYS);
 
             deleteBtn = new Button("🗑");
-            deleteBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #e74c3c; -fx-cursor: hand; -fx-font-size: 18px;");
+            deleteBtn.getStyleClass().add("todo-delete-button");
+            deleteBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 18px;");
             deleteBtn.setOnAction(e -> {
                 Event item = getItem();
                 if (item != null) {
@@ -216,7 +226,7 @@ public class HomeController {
             content = new HBox(typeLabel, textContainer, deleteBtn);
             content.setSpacing(15);
             content.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-            content.setStyle("-fx-padding: 10px; -fx-background-color: transparent; -fx-border-color: #3a3a3a; -fx-border-width: 0 0 1 0;");
+            content.getStyleClass().add("event-cell");
         }
 
         @Override

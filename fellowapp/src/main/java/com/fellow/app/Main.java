@@ -26,7 +26,9 @@ public class Main extends Application {
         
         // 3. Set up the Scene and Show the Window
         primaryStage.setTitle("Fellow - Academic Study Manager");
-        primaryStage.setScene(new Scene(root, 1000, 700));
+        Scene scene = new Scene(root, 1200, 800);
+        scene.getStylesheets().add(getClass().getResource("/css/dark-theme.css").toExternalForm());
+        primaryStage.setScene(scene);
         primaryStage.show();
         
         System.out.println("✅ Fellow started successfully with UI!");

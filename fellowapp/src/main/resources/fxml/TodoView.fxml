@@ -9,27 +9,27 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<SplitPane dividerPositions="0.35" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fellow.app.controller.TodoController">
+<SplitPane dividerPositions="0.35" styleClass="todo-root" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fellow.app.controller.TodoController">
   <items>
     <!-- Left Panel: Add New To-Do -->
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #2d2d2d;">
+    <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="form-card">
          <children>
             <VBox spacing="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="30.0">
                <children>
-                  <Label text="Add New To-Do" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #ffffff;"/>
+                  <Label text="Add New To-Do" styleClass="section-title"/>
                   <VBox spacing="5.0">
                      <children>
-                        <Label text="Task Topic" style="-fx-text-fill: #aaaaaa;"/>
-                        <TextField fx:id="txtTopic" promptText="e.g., Read chapter 4" style="-fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-prompt-text-fill: #777777; -fx-padding: 8px;"/>
+                        <Label text="Task Topic" styleClass="form-label"/>
+                        <TextField fx:id="txtTopic" promptText="e.g., Read chapter 4" styleClass="form-textfield"/>
                      </children>
                   </VBox>
                   <VBox spacing="5.0">
                      <children>
-                        <Label text="Description (optional)" style="-fx-text-fill: #aaaaaa;"/>
-                        <TextField fx:id="txtDescription" promptText="Add extra details..." style="-fx-background-color: #3a3a3a; -fx-text-fill: white; -fx-prompt-text-fill: #777777; -fx-padding: 8px;"/>
+                        <Label text="Description (optional)" styleClass="form-label"/>
+                        <TextField fx:id="txtDescription" promptText="Add extra details..." styleClass="form-textfield"/>
                      </children>
                   </VBox>
-                  <Button mnemonicParsing="false" onAction="#handleAddTask" prefWidth="2000.0" style="-fx-background-color: #1d8fbd; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px;" text="Add Task">
+                  <Button mnemonicParsing="false" onAction="#handleAddTask" styleClass="btn-primary" text="Add Task" maxWidth="Infinity" minWidth="0.0">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
@@ -40,12 +40,12 @@
     </AnchorPane>
     
     <!-- Right Panel: To-Do List -->
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #1e1e1e;">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="task-panel">
          <children>
             <VBox AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="30.0" spacing="15.0">
                <children>
-                  <Label text="Your Tasks" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #ffffff;"/>
-                  <ListView fx:id="lvTodos" style="-fx-background-color: transparent; -fx-control-inner-background: #1e1e1e; -fx-padding: 0;" VBox.vgrow="ALWAYS" />
+                  <Label text="Your Tasks" styleClass="section-title"/>
+                  <ListView fx:id="lvTodos" styleClass="todo-list" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </children>

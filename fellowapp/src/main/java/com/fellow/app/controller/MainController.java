@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -23,11 +24,19 @@ public class MainController {
     // ── Pomodoro (existing, untouched) ────────────────────────────────────────
     @FXML private Label  timerLabel;
     @FXML private Button startButton;
+    @FXML private Button themeToggleButton;
+    @FXML private Button navButtonHome;
+    @FXML private Button navButtonCalendar;
+    @FXML private Button navButtonPomodoro;
+    @FXML private Button navButtonTodo;
+    @FXML private Button navButtonStats;
 
     private Timeline timeline;
     private int     timeSeconds = 25 * 60;
     private int     defaultTimeSeconds = 25 * 60;
     private boolean isRunning   = false;
+    private boolean darkTheme   = true;
+    private Button  selectedNavButton;
 
     // ── Initialization ────────────────────────────────────────────────────────
 
@@ -43,6 +52,67 @@ public class MainController {
                 }
             }
         );
+
+        if (themeToggleButton != null) {
+            themeToggleButton.setText(darkTheme ? "Light Mode" : "Dark Mode");
+        }
+
+        setSelectedNavButton(navButtonHome);
+        mainTabPane.getSelectionModel().select(tabHome);
+    }
+
+    private void setSelectedNavButton(Button button) {
+        if (selectedNavButton != null) {
+            selectedNavButton.getStyleClass().remove("selected-nav-button");
+        }
+        selectedNavButton = button;
+        if (selectedNavButton != null && !selectedNavButton.getStyleClass().contains("selected-nav-button")) {
+            selectedNavButton.getStyleClass().add("selected-nav-button");
+        }
+    }
+
+    @FXML
+    public void showHome(ActionEvent event) {
+        setSelectedNavButton(navButtonHome);
+        mainTabPane.getSelectionModel().select(tabHome);
+    }
+
+    @FXML
+    public void showCalendar(ActionEvent event) {
+        setSelectedNavButton(navButtonCalendar);
+        mainTabPane.getSelectionModel().select(1);
+    }
+
+    @FXML
+    public void showPomodoro(ActionEvent event) {
+        setSelectedNavButton(navButtonPomodoro);
+        mainTabPane.getSelectionModel().select(tabPomodoro);
+    }
+
+    @FXML
+    public void showTodo(ActionEvent event) {
+        setSelectedNavButton(navButtonTodo);
+        mainTabPane.getSelectionModel().select(3);
+    }
+
+    @FXML
+    public void showStatistics(ActionEvent event) {
+        setSelectedNavButton(navButtonStats);
+        mainTabPane.getSelectionModel().select(4);
+    }
+
+    @FXML
+    public void handleThemeToggle(ActionEvent event) {
+        Scene scene = themeToggleButton.getScene();
+        if (scene == null) {
+            return;
+        }
+
+        scene.getStylesheets().clear();
+        String stylesheet = darkTheme ? "/css/light-theme.css" : "/css/dark-theme.css";
+        scene.getStylesheets().add(getClass().getResource(stylesheet).toExternalForm());
+        darkTheme = !darkTheme;
+        themeToggleButton.setText(darkTheme ? "Light Mode" : "Dark Mode");
     }
 
     // ── Pomodoro handlers ─────────────────────────────────────────────────────

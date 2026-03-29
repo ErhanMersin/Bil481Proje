@@ -27,7 +27,7 @@ public class AddEventController {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty ? null : item);
-                setStyle("-fx-text-fill: white; -fx-background-color: #3a3a3a; -fx-font-weight: bold;");
+                setStyle("");
             }
         };
         cmbType.setCellFactory(cellFactory);
