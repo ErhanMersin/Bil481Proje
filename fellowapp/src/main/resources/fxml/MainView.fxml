@@ -26,9 +26,9 @@
             <Button fx:id="navButtonHome" text="Home" onAction="#showHome" styleClass="nav-button selected-nav-button"/>
             <Button fx:id="navButtonCalendar" text="Calendar" onAction="#showCalendar" styleClass="nav-button"/>
             <Button fx:id="navButtonPomodoro" text="Pomodoro" onAction="#showPomodoro" styleClass="nav-button"/>
-            <Button fx:id="navButtonTodo" text="Todo" onAction="#showTodo" styleClass="nav-button"/>
+            <Button fx:id="navButtonTodo" text="ToDo" onAction="#showTodo" styleClass="nav-button"/>
             <Button fx:id="navButtonStats" text="Statistics" onAction="#showStatistics" styleClass="nav-button"/>
-        </HBox>
+        </HBox> 
     </top>
 
     <center>
@@ -90,7 +90,7 @@
                 </Tab>
 
                 <!-- ④ TODO -->
-                <Tab fx:id="tabTodo" text="Todo">
+                <Tab fx:id="tabTodo" text="ToDo">
                     <content>
                         <fx:include fx:id="todoView" source="TodoView.fxml"/>
                     </content>
