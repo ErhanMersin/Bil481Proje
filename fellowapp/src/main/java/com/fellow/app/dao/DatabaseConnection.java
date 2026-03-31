@@ -14,16 +14,29 @@ import java.io.InputStreamReader;
  */
 public class DatabaseConnection {
     
-    private static final String DB_URL = "jdbc:sqlite:fellow.db";
+    private static final String DEFAULT_DB_URL = "jdbc:sqlite:fellow.db";
+    private static String dbUrl = DEFAULT_DB_URL;
     private static Connection connection;
     
+    public static void setDatabaseUrl(String newDbUrl) {
+        if (newDbUrl == null || newDbUrl.isBlank()) {
+            throw new IllegalArgumentException("Database URL cannot be null or empty");
+        }
+        dbUrl = newDbUrl;
+        closeConnection();
+    }
+
+    public static void resetDatabaseUrl() {
+        setDatabaseUrl(DEFAULT_DB_URL);
+    }
+
     /**
      * Veritabanı bağlantısını döndürür (Singleton pattern)
      * Returns database connection (Singleton pattern)
      */
     public static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(DB_URL);
+            connection = DriverManager.getConnection(dbUrl);
         }
         return connection;
     }
