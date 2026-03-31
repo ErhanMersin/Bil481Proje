@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane
@@ -26,17 +22,14 @@
                 <Insets top="32" right="36" bottom="32" left="36"/>
             </padding>
 
-            <!-- Header -->
             <HBox alignment="CENTER_LEFT" spacing="16">
-                <Label text="Welcome Back!"
-                       styleClass="section-header"/>
-                <Label fx:id="lblDate" text=""
-                       styleClass="section-subtitle"/>
+                <Label text="Welcome Back!" styleClass="section-header"/>
+                <Label fx:id="lblDate" text="" styleClass="section-subtitle"/>
                 
                 <Region HBox.hgrow="ALWAYS" />
+                
                 <HBox fx:id="miniTimerBox" visible="false" managed="false" alignment="CENTER" spacing="8" 
-                      onMouseClicked="#handleMiniTimerClick"
-                      styleClass="mini-timer-box">
+                      onMouseClicked="#handleMiniTimerClick" styleClass="mini-timer-box">
                     <Label text="⏱" styleClass="mini-timer-icon"/>
                     <Label fx:id="lblMiniTimer" text="25:00" styleClass="mini-timer-text"/>
                 </HBox>
@@ -44,76 +37,15 @@
 
             <Separator styleClass="section-divider"/>
 
-            <!-- Stat cards -->
-            <GridPane hgap="16" vgap="0">
-                <columnConstraints>
-                    <ColumnConstraints percentWidth="33.33"/>
-                    <ColumnConstraints percentWidth="33.33"/>
-                    <ColumnConstraints percentWidth="33.33"/>
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints minHeight="95"/>
-                </rowConstraints>
-
-                <!-- Card 1: Study Time -->
-                <VBox GridPane.columnIndex="0" GridPane.rowIndex="0"
-                      alignment="CENTER" spacing="6"
-                      onMouseClicked="#handleStartTimer"
-                      styleClass="card-box">
-                    <Label text="Today's Study Time"
-                           styleClass="card-title"/>
-                    <Label fx:id="lblStudyTime" text="0h 0m"
-                           styleClass="card-value"/>
-                </VBox>
-
-                <!-- Card 2: Pomodoros -->
-                <VBox GridPane.columnIndex="1" GridPane.rowIndex="0"
-                      alignment="CENTER" spacing="6"
-                      onMouseClicked="#handleStartTimer"
-                      styleClass="card-box">
-                    <Label text="Pomodoro's Today"
-                           styleClass="card-title"/>
-                    <Label fx:id="lblPomodoros" text="0"
-                           styleClass="card-value"/>
-                </VBox>
-
-                <!-- Card 3: Active ToDos -->
-                <VBox GridPane.columnIndex="2" GridPane.rowIndex="0"
-                      alignment="CENTER" spacing="6"
-                      onMouseClicked="#handleAddTodo"
-                      styleClass="card-box">
-                    <Label text="Active ToDo's"
-                           styleClass="card-title"/>
-                    <Label fx:id="lblActiveTodos" text="0"
-                           styleClass="card-value"/>
-                </VBox>
-            </GridPane>
-
-            <!-- Quick action buttons -->
-            <HBox spacing="14" alignment="CENTER_LEFT">
-                <Button text="Start Pomodoro"
-                        onAction="#handleStartTimer"
-                        styleClass="btn-primary"/>
-                <Button text="Add ToDo"
-                        onAction="#handleAddTodo"
-                        styleClass="btn-primary"/>
-                <Button text="Add Event"
-                        onAction="#handleAddEvent"
-                        styleClass="btn-accent"/>
-            </HBox>
-
-            <Separator styleClass="section-divider"/>
-
-            <!-- Upcoming events -->
-            <VBox spacing="10">
+            <VBox spacing="15" VBox.vgrow="ALWAYS">
                 <HBox alignment="CENTER_LEFT" spacing="15">
-                    <Label text="Upcoming Events"
-                           styleClass="section-title"/>
+                    <Label text="Upcoming Events" styleClass="section-title"/>
                     <Region HBox.hgrow="ALWAYS" />
-                    <ComboBox fx:id="cmbSortEvents" promptText="Sıralama Seç" styleClass="input-select" />
+                    <ComboBox fx:id="cmbSortEvents" promptText="Sort By" styleClass="input-select" />
                 </HBox>
+                
                 <ListView fx:id="listUpcomingEvents"
-                          prefHeight="200"
+                          VBox.vgrow="ALWAYS"
                           styleClass="list-panel"/>
             </VBox>
 

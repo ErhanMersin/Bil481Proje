@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.fellow.app.controller.StatisticsController">
+
+    <center>
+        <VBox spacing="32" alignment="TOP_CENTER">
+            <padding>
+                <Insets top="48" right="60" bottom="40" left="60"/>
+            </padding>
+
+            <!-- Page title -->
+            <Label text="Statistics" styleClass="section-header"/>
+
+            <!-- Time range selector -->
+            <VBox spacing="10">
+                <Label text="Time Range" styleClass="form-label"/>
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <ToggleButton fx:id="btnDay"   text="Today"      onAction="#handleRangeChange" styleClass="button"/>
+                    <ToggleButton fx:id="btnWeek"  text="This Week"  onAction="#handleRangeChange" styleClass="button"/>
+                    <ToggleButton fx:id="btnMonth" text="This Month" onAction="#handleRangeChange" styleClass="button"/>
+                </HBox>
+            </VBox>
+
+            <!-- Course selector -->
+            <VBox spacing="10">
+                <Label text="Course" styleClass="form-label"/>
+                <ComboBox fx:id="cmbCourse"
+                          prefWidth="300"
+                          promptText="Select a course..."
+                          styleClass="input-select"
+                          onAction="#handleCourseChange"/>
+            </VBox>
+
+            <!-- Result label -->
+            <Label fx:id="lblResult"
+                   text="Select a time range and a course to see your study time."
+                   styleClass="section-subtitle"
+                   wrapText="true"
+                   maxWidth="600"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+        </VBox>
+    </center>
+</BorderPane>

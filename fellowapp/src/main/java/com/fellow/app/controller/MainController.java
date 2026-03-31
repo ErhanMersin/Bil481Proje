@@ -7,60 +7,73 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
+/**
+ * Main controller — manages the top navigation bar and tab switching.
+ */
 public class MainController {
 
     // ── Tab pane ──────────────────────────────────────────────────────────────
-    @FXML private TabPane mainTabPane;
-    @FXML private Tab tabHome;
-    @FXML private Tab tabPomodoro;
+    @FXML
+    private TabPane mainTabPane;
+    @FXML
+    private Tab tabHome;
+    @FXML
+    private Tab tabPomodoro;
+    @FXML
+    private Tab tabStats;
 
-    // Injected by fx:include — JavaFX names it <fx:id>Controller
-    @FXML private HomeController homeViewController;
+    // Injected by fx:include (JavaFX names them <fx:id>Controller)
+    @FXML
+    private HomeController homeViewController;
+    @FXML
+    private StatisticsController statisticsViewController;
 
-    // ── UI Elements ───────────────────────────────────────────────────────────
-    @FXML private Button themeToggleButton;
-    @FXML private Button navButtonHome;
-    @FXML private Button navButtonCalendar;
-    @FXML private Button navButtonPomodoro;
-    @FXML private Button navButtonTodo;
-    @FXML private Button navButtonStats;
+    // ── Navigation buttons ────────────────────────────────────────────────────
+    @FXML
+    private Button themeToggleButton;
+    @FXML
+    private Button navButtonHome;
+    @FXML
+    private Button navButtonCalendar;
+    @FXML
+    private Button navButtonPomodoro;
+    @FXML
+    private Button navButtonTodo;
+    @FXML
+    private Button navButtonStats;
 
     private boolean darkTheme = true;
     private Button selectedNavButton;
 
-    // ── Initialization ────────────────────────────────────────────────────────
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
 
     @FXML
     public void initialize() {
-        // Select Home tab on startup
+        // Open on Home tab
         mainTabPane.getSelectionModel().select(tabHome);
 
+        // Refresh sub-controllers when their tab is selected
         mainTabPane.getSelectionModel().selectedItemProperty().addListener(
-            (obs, oldTab, newTab) -> {
-                if (newTab != null && "tabHome".equals(newTab.getId()) && homeViewController != null) {
-                    homeViewController.refresh();
-                }
-            }
-        );
+                (obs, oldTab, newTab) -> {
+                    if (newTab == null)
+                        return;
+                    if ("tabHome".equals(newTab.getId()) && homeViewController != null) {
+                        homeViewController.refresh();
+                    }
+                    if ("tabStats".equals(newTab.getId()) && statisticsViewController != null) {
+                        statisticsViewController.refresh();
+                    }
+                });
 
         if (themeToggleButton != null) {
             themeToggleButton.setText(darkTheme ? "Light Mode" : "Dark Mode");
         }
 
         setSelectedNavButton(navButtonHome);
+        System.out.println("MainController initialized.");
     }
 
-    private void setSelectedNavButton(Button button) {
-        if (selectedNavButton != null) {
-            selectedNavButton.getStyleClass().remove("selected-nav-button");
-        }
-        selectedNavButton = button;
-        if (selectedNavButton != null && !selectedNavButton.getStyleClass().contains("selected-nav-button")) {
-            selectedNavButton.getStyleClass().add("selected-nav-button");
-        }
-    }
-
-    // ── Navigation Handlers ───────────────────────────────────────────────────
+    // ── Navigation handlers ───────────────────────────────────────────────────
 
     @FXML
     public void showHome(ActionEvent event) {
@@ -89,20 +102,35 @@ public class MainController {
     @FXML
     public void showStatistics(ActionEvent event) {
         setSelectedNavButton(navButtonStats);
-        mainTabPane.getSelectionModel().select(4);
+        mainTabPane.getSelectionModel().select(tabStats);
     }
+
+    // ── Theme toggle ──────────────────────────────────────────────────────────
 
     @FXML
     public void handleThemeToggle(ActionEvent event) {
         Scene scene = themeToggleButton.getScene();
-        if (scene == null) {
+        if (scene == null)
             return;
-        }
 
         scene.getStylesheets().clear();
         String stylesheet = darkTheme ? "/css/light-theme.css" : "/css/dark-theme.css";
         scene.getStylesheets().add(getClass().getResource(stylesheet).toExternalForm());
         darkTheme = !darkTheme;
         themeToggleButton.setText(darkTheme ? "Light Mode" : "Dark Mode");
+        System.out.println("Theme switched to: " + (darkTheme ? "dark" : "light"));
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    private void setSelectedNavButton(Button button) {
+        if (selectedNavButton != null) {
+            selectedNavButton.getStyleClass().remove("selected-nav-button");
+        }
+        selectedNavButton = button;
+        if (selectedNavButton != null
+                && !selectedNavButton.getStyleClass().contains("selected-nav-button")) {
+            selectedNavButton.getStyleClass().add("selected-nav-button");
+        }
     }
 }

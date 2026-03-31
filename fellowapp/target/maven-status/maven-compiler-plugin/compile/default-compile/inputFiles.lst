@@ -15,10 +15,9 @@ D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\model\Course.j
 D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\model\Event.java
 D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\model\StudySession.java
 D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\model\TodoItem.java
-D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\model\user.java
+D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\model\User.java
 D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\service\CourseService.java
 D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\service\EventService.java
-D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\service\PomodoroTimer.java
 D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\service\StatisticsService.java
 D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\service\StudySessionService.java
 D:\481-project\Bil481Proje\fellowapp\src\main\java\com\fellow\app\service\TodoService.java

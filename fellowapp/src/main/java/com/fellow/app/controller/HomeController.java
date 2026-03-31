@@ -1,8 +1,6 @@
 package com.fellow.app.controller;
 
 import com.fellow.app.dao.EventDAO;
-import com.fellow.app.dao.StudySessionDAO;
-import com.fellow.app.dao.TodoItemDAO;
 import com.fellow.app.model.Event;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,11 +14,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.Modality;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,17 +22,19 @@ import java.util.Locale;
 
 public class HomeController {
 
-    @FXML private Label lblDate;
-    @FXML private Label lblStudyTime;
-    @FXML private Label lblPomodoros;
-    @FXML private Label lblActiveTodos;
-    
-    // Mini-Timer embedded tracker
-    @FXML private HBox miniTimerBox;
-    @FXML private Label lblMiniTimer;
+    @FXML
+    private Label lblDate;
 
-    @FXML private ListView<Event> listUpcomingEvents;
-    @FXML private ComboBox<String> cmbSortEvents;
+    // Mini-Timer embedded tracker
+    @FXML
+    private HBox miniTimerBox;
+    @FXML
+    private Label lblMiniTimer;
+
+    @FXML
+    private ListView<Event> listUpcomingEvents;
+    @FXML
+    private ComboBox<String> cmbSortEvents;
 
     private EventDAO eventDAO = new EventDAO();
     private ObservableList<Event> eventsList = FXCollections.observableArrayList();
@@ -48,12 +43,10 @@ public class HomeController {
     @FXML
     public void initialize() {
         setTodayDate();
-        loadPlaceholderStats();
-        
+
         // Setup Sorting ComboBox
         cmbSortEvents.getItems().addAll("By Date (First Delivered)", "New Additions (Added First)");
-        
-        // Use theme CSS for ComboBox text color instead of hardcoded inline styles
+
         javafx.util.Callback<ListView<String>, ListCell<String>> cellFactory = lv -> new ListCell<String>() {
             {
                 getStyleClass().add("combo-list-cell");
@@ -69,35 +62,20 @@ public class HomeController {
         ListCell<String> buttonCell = cellFactory.call(null);
         buttonCell.getStyleClass().add("combo-button-cell");
         cmbSortEvents.setButtonCell(buttonCell);
-        
+
         cmbSortEvents.getSelectionModel().selectFirst();
         cmbSortEvents.setOnAction(e -> loadEvents());
 
         listUpcomingEvents.setItems(eventsList);
         listUpcomingEvents.setCellFactory(param -> new EventListCell());
-        
+
         loadEvents();
-        System.out.println("HomeController initialized.");
     }
 
     private void setTodayDate() {
         String formatted = LocalDate.now()
                 .format(DateTimeFormatter.ofPattern("EEEE, MMMM d", Locale.ENGLISH));
         lblDate.setText(formatted);
-    }
-
-    private void loadPlaceholderStats() {
-        int[] stats = new StudySessionDAO().getUserStats(DEMO_USER_ID);
-        int totalSeconds = stats[0];
-        int totalMins = totalSeconds / 60;
-        int hours = totalMins / 60;
-        int mins = totalMins % 60;
-        
-        lblStudyTime.setText(hours + "h " + mins + "m");
-        lblPomodoros.setText(String.valueOf(stats[1]));
-        
-        int activeTodos = new TodoItemDAO().getActiveTodoCount(DEMO_USER_ID);
-        lblActiveTodos.setText(String.valueOf(activeTodos));
     }
 
     private void loadEvents() {
@@ -112,48 +90,8 @@ public class HomeController {
     }
 
     @FXML
-    private void handleStartTimer() {
-        switchToTab("tabPomodoro");
-    }
-
-    @FXML
-    private void handleAddTodo() {
-        switchToTab("tabTodo");
-    }
-
-    @FXML
     private void handleMiniTimerClick(MouseEvent event) {
-        switchToTab("tabPomodoro");
-    }
-
-    @FXML
-    private void handleAddEvent() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddEventDialog.fxml"));
-            Parent root = loader.load();
-            
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Add Event");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(lblDate.getScene().getWindow());
-            dialogStage.setResizable(false);
-            
-            Scene scene = new Scene(root);
-            Scene parentScene = lblDate.getScene();
-            if (parentScene != null) {
-                scene.getStylesheets().addAll(parentScene.getStylesheets());
-            }
-            dialogStage.setScene(scene);
-            
-            AddEventController controller = loader.getController();
-            dialogStage.showAndWait(); // Blocking call
-            
-            if (controller.isSaved()) {
-                loadEvents(); // Refresh events if saved
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        switchToTab("tabTimer");
     }
 
     private void switchToTab(String tabFxId) {
@@ -181,7 +119,6 @@ public class HomeController {
     }
 
     public void refresh() {
-        loadPlaceholderStats();
         loadEvents();
     }
 
@@ -233,7 +170,7 @@ public class HomeController {
         protected void updateItem(Event item, boolean empty) {
             super.updateItem(item, empty);
             setStyle("-fx-background-color: transparent; -fx-control-inner-background: transparent;");
-            
+
             if (empty || item == null) {
                 setGraphic(null);
             } else {
@@ -243,12 +180,22 @@ public class HomeController {
                 dateText.setText(dateStr + "  " + timeStr);
 
                 typeLabel.setText(item.getType());
-                switch(item.getType()) {
-                    case "EXAM": typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #e74c3c;"); break;
-                    case "PROJECT": typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #9b59b6;"); break;
-                    case "HOMEWORK": typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #f39c12;"); break;
-                    case "QUIZ": typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #e67e22;"); break;
-                    default: typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #34495e;"); break;
+                switch (item.getType()) {
+                    case "EXAM":
+                        typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #e74c3c;");
+                        break;
+                    case "PROJECT":
+                        typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #9b59b6;");
+                        break;
+                    case "HOMEWORK":
+                        typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #f39c12;");
+                        break;
+                    case "QUIZ":
+                        typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #e67e22;");
+                        break;
+                    default:
+                        typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #34495e;");
+                        break;
                 }
                 setGraphic(content);
             }

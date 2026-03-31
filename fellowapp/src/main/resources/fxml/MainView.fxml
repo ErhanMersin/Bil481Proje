@@ -20,13 +20,13 @@
     <top>
         <HBox alignment="CENTER_LEFT" spacing="12" styleClass="top-bar">
             <Label text="Fellow" styleClass="app-title"/>
-            <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="navButtonHome" text="Home" onAction="#showHome" styleClass="nav-button selected-nav-button"/>
-            <Button fx:id="navButtonCalendar" text="Calendar" onAction="#showCalendar" styleClass="nav-button"/>
-            <Button fx:id="navButtonPomodoro" text="Pomodoro" onAction="#showPomodoro" styleClass="nav-button"/>
-            <Button fx:id="navButtonTodo" text="ToDo" onAction="#showTodo" styleClass="nav-button"/>
-            <Button fx:id="navButtonStats" text="Statistics" onAction="#showStatistics" styleClass="nav-button"/>
-        </HBox> 
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="navButtonHome"     text="Home"       onAction="#showHome"       styleClass="nav-button, selected-nav-button"/>
+            <Button fx:id="navButtonCalendar" text="Calendar"   onAction="#showCalendar"   styleClass="nav-button"/>
+            <Button fx:id="navButtonPomodoro" text="Timer"      onAction="#showPomodoro"   styleClass="nav-button"/>
+            <Button fx:id="navButtonTodo"     text="ToDo"       onAction="#showTodo"       styleClass="nav-button"/>
+            <Button fx:id="navButtonStats"    text="Statistics" onAction="#showStatistics" styleClass="nav-button"/>
+        </HBox>
     </top>
 
     <center>
@@ -47,9 +47,10 @@
                     </content>
                 </Tab>
 
-                <Tab fx:id="tabPomodoro" text="Pomodoro">
+                <!-- Tab text changed: Pomodoro → Timer -->
+                <Tab fx:id="tabPomodoro" text="Timer">
                     <content>
-                        <fx:include fx:id="pomodoroView" source="PomodoroView.fxml"/>
+                        <fx:include fx:id="pomodoroView" source="TimerView.fxml"/>
                     </content>
                 </Tab>
 
@@ -61,7 +62,7 @@
 
                 <Tab fx:id="tabStats" text="Statistics">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0"/>
+                        <fx:include fx:id="statisticsView" source="StatisticsView.fxml"/>
                     </content>
                 </Tab>
 
@@ -71,7 +72,7 @@
 
     <bottom>
         <HBox alignment="CENTER_RIGHT" spacing="8" styleClass="bottom-bar">
-            <Region HBox.hgrow="ALWAYS" />
+            <Region HBox.hgrow="ALWAYS"/>
             <Button fx:id="themeToggleButton"
                     mnemonicParsing="false"
                     onAction="#handleThemeToggle"
