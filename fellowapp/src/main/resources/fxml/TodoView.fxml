@@ -31,7 +31,7 @@
                   </VBox>
                   <Button mnemonicParsing="false" onAction="#handleAddTask" styleClass="btn-primary" text="Add Task" maxWidth="Infinity" minWidth="0.0">
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets top="10.0" /> 
                      </VBox.margin>
                   </Button>
                </children>
