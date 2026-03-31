@@ -38,7 +38,7 @@ public class DatabaseConnectionTest {
     void testInitializeDatabaseCreatesFile() throws SQLException {
         DatabaseConnection.initializeDatabase();
 
-        File f = new File(DB_FILE);
+        File f = new File(TEST_DB_FILE);
         assertTrue(f.exists(), "Database file should be created after initializeDatabase");
 
         try (Connection conn = DatabaseConnection.getConnection()) {
