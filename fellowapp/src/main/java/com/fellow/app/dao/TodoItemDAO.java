@@ -34,6 +34,7 @@ public class TodoItemDAO {
                 return true;
             }
         } catch (SQLException e) {
+            System.err.println("ADD TODO ERROR: " + e.getMessage());
             e.printStackTrace();
         }
         return false;
