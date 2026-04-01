@@ -1,5 +1,7 @@
 package com.fellow.app.controller;
 
+import com.fellow.app.dao.CourseDAO;
+import com.fellow.app.model.Course;
 import com.fellow.app.service.StatisticsService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +24,7 @@ public class StatisticsController {
     private Label lblResult;
 
     private StatisticsService statsService = new StatisticsService();
+    private CourseDAO courseDAO = new CourseDAO();
     private StatisticsService.TimeStrategy currentStrategy;
     private final int DEMO_USER_ID = 1;
 
@@ -41,16 +44,18 @@ public class StatisticsController {
         String previousSelection = cmbCourse.getValue();
         cmbCourse.getItems().clear();
 
-        // Veritabanından o aralıkta çalışılmış dersleri ÇEK!
-        List<String> courses = statsService.getStudiedCourseNames(DEMO_USER_ID, currentStrategy);
-        cmbCourse.getItems().addAll(courses);
+        // Load all courses for the user, even if they have no study sessions
+        List<Course> courses = courseDAO.getCoursesByUserId(DEMO_USER_ID);
+        for (Course course : courses) {
+            cmbCourse.getItems().add(course.getCourseName());
+        }
 
-        if (courses.contains(previousSelection)) {
+        if (cmbCourse.getItems().contains(previousSelection)) {
             cmbCourse.getSelectionModel().select(previousSelection);
-        } else if (!courses.isEmpty()) {
+        } else if (!cmbCourse.getItems().isEmpty()) {
             cmbCourse.getSelectionModel().selectFirst();
         } else {
-            lblResult.setText("No study sessions found for " + currentStrategy.label() + ".");
+            lblResult.setText("No courses available.");
         }
         updateResult();
     }

@@ -1,6 +1,8 @@
 package com.fellow.app.controller;
 
+import com.fellow.app.dao.CourseDAO;
 import com.fellow.app.dao.EventDAO;
+import com.fellow.app.model.Course;
 import com.fellow.app.model.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,6 +40,7 @@ public class CalendarController {
     private LocalDate selectedDate;
     private final int DEMO_USER_ID = 1;
     private EventDAO eventDAO = new EventDAO();
+    private CourseDAO courseDAO = new CourseDAO();
 
     @FXML
     public void initialize() {
@@ -46,6 +49,17 @@ public class CalendarController {
 
         listDailyEvents.setCellFactory(param -> new DailyEventCell());
 
+        populateCalendar(currentYearMonth);
+        loadAgenda(selectedDate);
+    }
+
+    public void refresh() {
+        if (currentYearMonth == null) {
+            currentYearMonth = YearMonth.now();
+        }
+        if (selectedDate == null) {
+            selectedDate = LocalDate.now();
+        }
         populateCalendar(currentYearMonth);
         loadAgenda(selectedDate);
     }
@@ -204,6 +218,7 @@ public class CalendarController {
         private Label typeLabel;
         private VBox textContainer;
         private Text titleText;
+        private Text courseText;
         private Text timeText;
 
         public DailyEventCell() {
@@ -216,11 +231,15 @@ public class CalendarController {
             titleText.setFill(Color.WHITE);
             titleText.setFont(Font.font("System", FontWeight.BOLD, 14));
 
+            courseText = new Text();
+            courseText.setFill(Color.web("#dddddd"));
+            courseText.setFont(Font.font("System", 12));
+
             timeText = new Text();
             timeText.setFill(Color.web("#aaaaaa"));
             timeText.setFont(Font.font("System", 12));
 
-            textContainer = new VBox(titleText, timeText);
+            textContainer = new VBox(titleText, courseText, timeText);
             textContainer.setSpacing(3);
             HBox.setHgrow(textContainer, Priority.ALWAYS);
 
@@ -240,6 +259,15 @@ public class CalendarController {
             } else {
                 titleText.setText(item.getTitle());
                 timeText.setText((item.getEventTime() != null && !item.getEventTime().isEmpty()) ? item.getEventTime() : "All Day");
+
+                Course course = courseDAO.getCourseById(item.getCourseId());
+                if (course != null) {
+                    courseText.setText(course.getCourseName());
+                    courseText.setFill(Color.web(course.getColorHex()));
+                } else {
+                    courseText.setText("Default");
+                    courseText.setFill(Color.web("#bbbbbb"));
+                }
 
                 typeLabel.setText(item.getType());
                 switch(item.getType()) {

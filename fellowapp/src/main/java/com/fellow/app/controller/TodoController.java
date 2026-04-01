@@ -1,6 +1,8 @@
 package com.fellow.app.controller;
 
+import com.fellow.app.dao.CourseDAO;
 import com.fellow.app.dao.TodoItemDAO;
+import com.fellow.app.model.Course;
 import com.fellow.app.model.TodoItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,26 +18,66 @@ import java.util.List;
 
 public class TodoController {
 
+    @FXML private ComboBox<Course> cmbCourse;
     @FXML private TextField txtTopic;
     @FXML private TextField txtDescription;
     @FXML private ListView<TodoItem> lvTodos;
 
+    private CourseDAO courseDAO = new CourseDAO();
     private TodoItemDAO todoDAO = new TodoItemDAO();
     private ObservableList<TodoItem> todoItems = FXCollections.observableArrayList();
+    private ObservableList<Course> courseItems = FXCollections.observableArrayList();
+    private final Course allCourse = new Course(0, "All", "#eeeeee", 1);
 
     private final int DEMO_USER_ID = 1;
-    private final int DEMO_COURSE_ID = 1;
 
     @FXML
     public void initialize() {
         lvTodos.setItems(todoItems);
         lvTodos.setCellFactory(param -> new TodoListCell());
+        refresh();
+
+        if (cmbCourse != null) {
+            cmbCourse.setOnAction(event -> loadTodos());
+        }
+    }
+
+    public void refresh() {
+        loadCourses();
         loadTodos();
+    }
+
+    private void loadCourses() {
+        courseItems.setAll(courseDAO.getCoursesByUserId(DEMO_USER_ID));
+        ObservableList<Course> items = FXCollections.observableArrayList();
+        items.add(allCourse);
+        items.addAll(courseItems);
+        cmbCourse.setItems(items);
+
+        if (!items.isEmpty()) {
+            Course current = cmbCourse.getValue();
+            if (current != null && items.contains(current)) {
+                cmbCourse.getSelectionModel().select(current);
+            } else {
+                cmbCourse.getSelectionModel().select(allCourse);
+            }
+        }
     }
 
     private void loadTodos() {
         todoItems.clear();
-        List<TodoItem> list = todoDAO.getTodosByUserAndCourse(DEMO_USER_ID, DEMO_COURSE_ID);
+        Course selectedCourse = cmbCourse.getValue();
+        if (selectedCourse == null) {
+            selectedCourse = allCourse;
+            cmbCourse.getSelectionModel().select(allCourse);
+        }
+
+        List<TodoItem> list;
+        if (selectedCourse.getId() == 0) {
+            list = todoDAO.getTodosByUserId(DEMO_USER_ID);
+        } else {
+            list = todoDAO.getTodosByUserAndCourse(DEMO_USER_ID, selectedCourse.getId());
+        }
         todoItems.addAll(list);
     }
 
@@ -46,8 +88,19 @@ public class TodoController {
             return;
         }
         String desc = txtDescription.getText().trim();
-        
-        TodoItem item = new TodoItem(DEMO_COURSE_ID, DEMO_USER_ID, topic, desc);
+        Course selectedCourse = cmbCourse.getValue();
+        if (selectedCourse == null || selectedCourse.getId() == 0) {
+            selectedCourse = courseDAO.getOrCreateDefaultCourse(DEMO_USER_ID);
+        }
+        if (selectedCourse == null && !courseItems.isEmpty()) {
+            selectedCourse = courseItems.get(0);
+            cmbCourse.getSelectionModel().selectFirst();
+        }
+        if (selectedCourse == null) {
+            return;
+        }
+
+        TodoItem item = new TodoItem(selectedCourse.getId(), DEMO_USER_ID, topic, desc);
         if (todoDAO.addTodo(item)) {
             txtTopic.clear();
             txtDescription.clear();
@@ -60,6 +113,7 @@ public class TodoController {
         private CheckBox checkBox;
         private VBox textContainer;
         private Text topicText;
+        private Label courseLabel;
         private Label descLabel;
         private Button btnDelete;
 
@@ -83,7 +137,11 @@ public class TodoController {
             descLabel.getStyleClass().add("todo-desc-label");
             descLabel.setStyle("-fx-font-size: 12px;");
 
-            textContainer = new VBox(topicText, descLabel);
+            courseLabel = new Label();
+            courseLabel.getStyleClass().add("todo-course-label");
+            courseLabel.setStyle("-fx-font-size: 11px; -fx-padding: 2 6 2 6; -fx-background-radius: 4; -fx-background-color: #ddd;");
+
+            textContainer = new VBox(topicText, courseLabel, descLabel);
             HBox.setHgrow(textContainer, Priority.ALWAYS);
             textContainer.setSpacing(2);
 
@@ -113,6 +171,19 @@ public class TodoController {
             } else {
                 descLabel.setVisible(false);
                 descLabel.setManaged(false);
+            }
+
+            Course course = courseDAO.getCourseById(item.getCourseId());
+            if (course != null) {
+                courseLabel.setText(course.getCourseName());
+                courseLabel.setStyle("-fx-font-size: 11px; -fx-padding: 2 6 2 6; -fx-background-radius: 4; -fx-background-color: " + course.getColorHex() + "33; -fx-text-fill: #222222;");
+                courseLabel.setVisible(true);
+                courseLabel.setManaged(true);
+            } else {
+                courseLabel.setText("Unknown course");
+                courseLabel.setStyle("-fx-font-size: 11px; -fx-padding: 2 6 2 6; -fx-background-radius: 4; -fx-background-color: #dddddd; -fx-text-fill: #222222;");
+                courseLabel.setVisible(true);
+                courseLabel.setManaged(true);
             }
 
             checkBox.setSelected(item.isCompleted());

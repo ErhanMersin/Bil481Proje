@@ -12,6 +12,7 @@ public class Course {
     
     private int id;              // Veritabanındaki benzersiz kimlik numarası
     private String courseName;   // Ders adı (örn: "Yazılım Mühendisliği")
+    private String description;  // Ders açıklaması
     private String colorHex;     // Ders rengi (örn: "#6366f1")
     private int userId;          // Bu dersi ekleyen kullanıcının ID'si
     
@@ -32,6 +33,13 @@ public class Course {
      */
     public Course(String courseName, String colorHex, int userId) {
         this.courseName = courseName;
+        this.colorHex = colorHex;
+        this.userId = userId;
+    }
+
+    public Course(String courseName, String description, String colorHex, int userId) {
+        this.courseName = courseName;
+        this.description = description;
         this.colorHex = colorHex;
         this.userId = userId;
     }
@@ -73,6 +81,10 @@ public class Course {
      * Ders rengini döndürür
      * @return colorHex
      */
+    public String getDescription() {
+        return description;
+    }
+
     public String getColorHex() {
         return colorHex;
     }
@@ -107,6 +119,10 @@ public class Course {
      * Ders rengini ayarlar
      * @param colorHex Yeni renk kodu (örn: "#FF5733")
      */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setColorHex(String colorHex) {
         this.colorHex = colorHex;
     }
@@ -127,12 +143,7 @@ public class Course {
      */
     @Override
     public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", courseName='" + courseName + '\'' +
-                ", colorHex='" + colorHex + '\'' +
-                ", userId=" + userId +
-                '}';
+        return courseName != null ? courseName : "Unknown Course";
     }
     
     /**

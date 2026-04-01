@@ -5,9 +5,9 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
 import javafx.util.Duration;
 import com.fellow.app.dao.StudySessionDAO;
 import com.fellow.app.dao.CourseDAO;
@@ -17,7 +17,7 @@ public class TimerController {
 
     @FXML private Label timerLabel;
     @FXML private Button startButton;
-    @FXML private TextField txtCourse;
+    @FXML private ComboBox<Course> cmbCourse;
 
     private CourseDAO courseDAO = new CourseDAO();
     private final int DEMO_USER_ID = 1;
@@ -30,6 +30,26 @@ public class TimerController {
     @FXML
     public void initialize() {
         System.out.println("TimerController initialized with smart save feature.");
+        refresh();
+    }
+
+    public void refresh() {
+        if (cmbCourse == null) {
+            return;
+        }
+        Course previous = cmbCourse.getValue();
+        var courses = courseDAO.getCoursesByUserId(DEMO_USER_ID);
+        cmbCourse.getItems().setAll(courses);
+        if (previous != null && courses.contains(previous)) {
+            cmbCourse.getSelectionModel().select(previous);
+        } else {
+            Course defaultCourse = courseDAO.getOrCreateDefaultCourse(DEMO_USER_ID);
+            if (defaultCourse != null && courses.contains(defaultCourse)) {
+                cmbCourse.getSelectionModel().select(defaultCourse);
+            } else if (!courses.isEmpty()) {
+                cmbCourse.getSelectionModel().selectFirst();
+            }
+        }
     }
 
     @FXML
@@ -95,25 +115,17 @@ public class TimerController {
     }
 
     private void saveSessionToDatabase(int durationSeconds) {
-        String courseName = txtCourse.getText().trim();
-        if (courseName.isEmpty()) {
-            courseName = "General"; // Default fallback
-        }
-
-        // Check if course exists in DB, if not, create it
-        Course course = courseDAO.getCourseByName(DEMO_USER_ID, courseName);
-        if (course == null) {
-            course = new Course(courseName, "#1d8fbd", DEMO_USER_ID); // Default blue color
-            courseDAO.addCourse(course);
-            System.out.println("New course created automatically: " + courseName);
+        Course selectedCourse = cmbCourse != null ? cmbCourse.getValue() : null;
+        if (selectedCourse == null) {
+            selectedCourse = courseDAO.getOrCreateDefaultCourse(DEMO_USER_ID);
         }
 
         // If they finished the whole time, it counts as 1 full pomodoro, else 0.
         int pomodoroCount = (durationSeconds >= defaultTimeSeconds) ? 1 : 0;
 
         // Save the study session
-        new StudySessionDAO().addSession(course.getId(), DEMO_USER_ID, durationSeconds, pomodoroCount);
-        System.out.println("Session saved successfully: " + durationSeconds + " seconds for " + courseName);
+        new StudySessionDAO().addSession(selectedCourse.getId(), DEMO_USER_ID, durationSeconds, pomodoroCount);
+        System.out.println("Session saved successfully: " + durationSeconds + " seconds for " + selectedCourse.getCourseName());
     }
 
     @FXML

@@ -15,15 +15,18 @@
         
         <Label text="Type:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <ComboBox fx:id="cmbType" styleClass="form-textfield" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <Label text="Course:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <ComboBox fx:id="cmbCourse" styleClass="form-textfield" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         
-        <Label text="Date:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <DatePicker fx:id="dpDate" styleClass="date-picker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label text="Date:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <DatePicker fx:id="dpDate" styleClass="date-picker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         
-        <Label text="Time (Optional):" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <TextField fx:id="txtTime" promptText="e.g. 14:30" styleClass="form-textfield" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Label text="Time (Optional):" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <TextField fx:id="txtTime" promptText="e.g. 14:30" styleClass="form-textfield" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         
-        <Label text="Desc (Optional):" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-        <TextField fx:id="txtDesc" promptText="Details..." styleClass="form-textfield" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Label text="Desc (Optional):" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <TextField fx:id="txtDesc" promptText="Details..." styleClass="form-textfield" GridPane.columnIndex="1" GridPane.rowIndex="5" />
     </GridPane>
     
     <HBox spacing="10" alignment="CENTER_RIGHT">

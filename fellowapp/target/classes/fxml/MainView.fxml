@@ -23,6 +23,7 @@
             <Region HBox.hgrow="ALWAYS"/>
             <Button fx:id="navButtonHome"     text="Home"       onAction="#showHome"       styleClass="nav-button, selected-nav-button"/>
             <Button fx:id="navButtonCalendar" text="Calendar"   onAction="#showCalendar"   styleClass="nav-button"/>
+            <Button fx:id="navButtonCourses"  text="Add Course"  onAction="#showCourses"    styleClass="nav-button"/>
             <Button fx:id="navButtonPomodoro" text="Timer"      onAction="#showPomodoro"   styleClass="nav-button"/>
             <Button fx:id="navButtonTodo"     text="ToDo"       onAction="#showTodo"       styleClass="nav-button"/>
             <Button fx:id="navButtonStats"    text="Statistics" onAction="#showStatistics" styleClass="nav-button"/>
@@ -44,6 +45,12 @@
                 <Tab fx:id="tabCalendar" text="Calendar">
                     <content>
                         <fx:include fx:id="calendarView" source="CalendarView.fxml"/>
+                    </content>
+                </Tab>
+
+                <Tab fx:id="tabCourses" text="Dersler">
+                    <content>
+                        <fx:include fx:id="courseView" source="CourseView.fxml"/>
                     </content>
                 </Tab>
 

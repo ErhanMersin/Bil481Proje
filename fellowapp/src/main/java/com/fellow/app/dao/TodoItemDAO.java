@@ -106,4 +106,31 @@ public class TodoItemDAO {
         }
         return 0;
     }
+
+    public List<TodoItem> getTodosByUserId(int userId) {
+        List<TodoItem> list = new ArrayList<>();
+        String sql = "SELECT * FROM todo_items WHERE user_id = ? ORDER BY completed ASC, id DESC";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    TodoItem t = new TodoItem(rs.getInt("course_id"), rs.getInt("user_id"), rs.getString("topic"), rs.getString("description"));
+                    t.setId(rs.getInt("id"));
+                    t.setCompleted(rs.getInt("completed") == 1);
+                    String cd = rs.getString("created_date");
+                    if (cd != null && !cd.isEmpty()) {
+                        try {
+                            t.setCreatedDate(LocalDateTime.parse(cd.replace("T", " ").substring(0, 19), formatter));
+                        } catch (Exception ex) {
+                        }
+                    }
+                    list.add(t);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

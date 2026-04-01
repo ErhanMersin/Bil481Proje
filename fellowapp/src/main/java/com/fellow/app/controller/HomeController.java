@@ -1,6 +1,8 @@
 package com.fellow.app.controller;
 
+import com.fellow.app.dao.CourseDAO;
 import com.fellow.app.dao.EventDAO;
+import com.fellow.app.model.Course;
 import com.fellow.app.model.Event;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,6 +39,7 @@ public class HomeController {
     private ComboBox<String> cmbSortEvents;
 
     private EventDAO eventDAO = new EventDAO();
+    private final CourseDAO courseDAO = new CourseDAO();
     private ObservableList<Event> eventsList = FXCollections.observableArrayList();
     private final int DEMO_USER_ID = 1;
 
@@ -127,6 +130,7 @@ public class HomeController {
         private Label typeLabel;
         private VBox textContainer;
         private Text titleText;
+        private Text courseText;
         private Text dateText;
         private Button deleteBtn;
 
@@ -145,7 +149,12 @@ public class HomeController {
             dateText.getStyleClass().add("event-date");
             dateText.setFont(Font.font("System", FontWeight.BOLD, 14));
 
-            textContainer = new VBox(titleText, dateText);
+            courseText = new Text();
+            courseText.getStyleClass().add("event-course-text");
+            courseText.setFont(Font.font("System", 12));
+            courseText.setFill(Color.GRAY);
+
+            textContainer = new VBox(titleText, courseText, dateText);
             textContainer.setSpacing(5);
             HBox.setHgrow(textContainer, Priority.ALWAYS);
 
@@ -175,11 +184,20 @@ public class HomeController {
                 setGraphic(null);
             } else {
                 titleText.setText(item.getTitle());
-                String dateStr = item.getEventDate() != null ? item.getEventDate().toString() : "";
-                String timeStr = item.getEventTime() != null ? item.getEventTime() : "";
-                dateText.setText(dateStr + "  " + timeStr);
+            String dateStr = item.getEventDate() != null ? item.getEventDate().toString() : "";
+            String timeStr = item.getEventTime() != null ? item.getEventTime() : "";
+            dateText.setText(dateStr + "  " + timeStr);
 
-                typeLabel.setText(item.getType());
+            Course course = courseDAO.getCourseById(item.getCourseId());
+            if (course != null) {
+                courseText.setText(course.getCourseName());
+                courseText.setFill(Color.web(course.getColorHex()));
+            } else {
+                courseText.setText("Default");
+                courseText.setFill(Color.GRAY);
+            }
+
+            typeLabel.setText(item.getType());
                 switch (item.getType()) {
                     case "EXAM":
                         typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #e74c3c;");

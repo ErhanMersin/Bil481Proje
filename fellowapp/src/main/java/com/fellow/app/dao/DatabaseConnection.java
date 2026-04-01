@@ -92,6 +92,9 @@ public class DatabaseConnection {
 
             statement.close();
 
+            // Ensure old database files get the new "description" field on courses
+            ensureCourseDescriptionColumn(conn);
+
             // Seed base data to satisfy NOT NULL constraints without User/Course modules
             // built yet
             seedDummyData(conn);
@@ -118,6 +121,26 @@ public class DatabaseConnection {
         }
     }
 
+    private static void ensureCourseDescriptionColumn(Connection conn) {
+        try (Statement stmt = conn.createStatement()) {
+            java.sql.ResultSet rs = stmt.executeQuery("PRAGMA table_info(courses)");
+            boolean hasDescription = false;
+            while (rs.next()) {
+                if ("description".equalsIgnoreCase(rs.getString("name"))) {
+                    hasDescription = true;
+                    break;
+                }
+            }
+            rs.close();
+
+            if (!hasDescription) {
+                stmt.execute("ALTER TABLE courses ADD COLUMN description TEXT");
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Error ensuring course description column: " + e.getMessage());
+        }
+    }
+
     /**
      * Seeds dummy data required for other models to function without errors
      */
@@ -133,11 +156,11 @@ public class DatabaseConnection {
             }
             rs.close();
 
-            // Check if dummy course exists
-            rs = stmt.executeQuery("SELECT count(*) FROM courses WHERE id = 1");
+            // Check if dummy/default course exists by name
+            rs = stmt.executeQuery("SELECT count(*) FROM courses WHERE user_id = 1 AND name = 'Default'");
             rs.next();
             if (rs.getInt(1) == 0) {
-                stmt.execute("INSERT INTO courses (id, name, color_hex, user_id) VALUES (1, 'Genel', '#6366f1', 1)");
+                stmt.execute("INSERT INTO courses (name, description, color_hex, user_id) VALUES ('Default', 'Default course', '#6366f1', 1)");
             }
             rs.close();
 
