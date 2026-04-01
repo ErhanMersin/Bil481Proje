@@ -151,11 +151,29 @@ public class TimerController {
     private void updateLabel() {
         int minutes = timeSeconds / 60;
         int seconds = timeSeconds % 60;
-        timerLabel.setText(String.format("%02d:%02d", minutes, seconds));
+        String formattedTime = String.format("%02d:%02d", minutes, seconds);
+        timerLabel.setText(formattedTime);
+
+        // Sync with the Top Bar mini widget if running
+        if (timerLabel.getScene() != null) {
+            Label miniTimerLbl = (Label) timerLabel.getScene().lookup("#miniTimerLabel");
+            if (miniTimerLbl != null) {
+                miniTimerLbl.setText(formattedTime);
+            }
+        }
     }
 
     @FXML
     public void handleMiniMode() {
+        if (timerLabel.getScene() == null) return;
+        
+        // Find and display the widget box securely in top bar
+        javafx.scene.layout.HBox widget = (javafx.scene.layout.HBox) timerLabel.getScene().lookup("#miniTimerWidget");
+        if (widget != null) {
+            widget.setVisible(true);
+            widget.setManaged(true);
+        }
+
         TabPane tabPane = (TabPane) timerLabel.getScene().lookup("#mainTabPane");
         if (tabPane != null) tabPane.getSelectionModel().select(0);
     }

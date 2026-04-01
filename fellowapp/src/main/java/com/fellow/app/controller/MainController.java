@@ -6,6 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 
 /**
  * Main controller — manages the top navigation bar and tab switching.
@@ -15,6 +18,13 @@ public class MainController {
     // ── Tab pane ──────────────────────────────────────────────────────────────
     @FXML
     private TabPane mainTabPane;
+    
+    // ── Mini Timer Widget ─────────────────────────────────────────────────────
+    @FXML
+    public HBox miniTimerWidget;
+    @FXML
+    public Label miniTimerLabel;
+    
     @FXML
     private Tab tabHome;
     @FXML
@@ -143,5 +153,16 @@ public class MainController {
                 && !selectedNavButton.getStyleClass().contains("selected-nav-button")) {
             selectedNavButton.getStyleClass().add("selected-nav-button");
         }
+    }
+
+    @FXML
+    public void disableMiniTimer(MouseEvent event) {
+        // Hide the mini timer widget in the top bar
+        if (miniTimerWidget != null) {
+            miniTimerWidget.setVisible(false);
+            miniTimerWidget.setManaged(false);
+        }
+        // Switch back to the Timer view
+        showPomodoro(null);
     }
 }

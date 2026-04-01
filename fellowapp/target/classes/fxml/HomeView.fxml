@@ -44,7 +44,7 @@
 
             <Separator styleClass="section-divider"/>
 
-            <VBox spacing="15" maxHeight="420" minHeight="260">
+            <VBox spacing="15" VBox.vgrow="ALWAYS">
                 <HBox alignment="CENTER_LEFT" spacing="15">
                     <Label text="Upcoming Events" styleClass="section-title"/>
                     <Region HBox.hgrow="ALWAYS" />
@@ -52,9 +52,7 @@
                 </HBox>
                 
                 <ListView fx:id="listUpcomingEvents"
-                          prefHeight="280"
-                          maxHeight="280"
-                          minHeight="160"
+                          VBox.vgrow="ALWAYS"
                           styleClass="list-panel"/>
             </VBox>
 

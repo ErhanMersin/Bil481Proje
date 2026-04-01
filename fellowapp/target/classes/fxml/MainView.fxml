@@ -27,6 +27,12 @@
             <Button fx:id="navButtonPomodoro" text="Timer"      onAction="#showPomodoro"   styleClass="nav-button"/>
             <Button fx:id="navButtonTodo"     text="ToDo"       onAction="#showTodo"       styleClass="nav-button"/>
             <Button fx:id="navButtonStats"    text="Statistics" onAction="#showStatistics" styleClass="nav-button"/>
+            
+            <!-- Mini Timer Widget in the Navbar -->
+            <HBox fx:id="miniTimerWidget" alignment="CENTER" visible="false" managed="false" onMouseClicked="#disableMiniTimer"
+                  style="-fx-background-color: #2b2b2b; -fx-background-radius: 8; -fx-padding: 4 12 4 12; -fx-border-color: #444444; -fx-border-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);">
+                <Label fx:id="miniTimerLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;"/>
+            </HBox>
         </HBox>
     </top>
 
