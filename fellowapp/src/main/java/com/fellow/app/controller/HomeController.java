@@ -38,17 +38,21 @@ public class HomeController {
     @FXML
     private ComboBox<String> cmbSortEvents;
 
+    @FXML
+    private Button themeToggleButton;
+
     private EventDAO eventDAO = new EventDAO();
     private final CourseDAO courseDAO = new CourseDAO();
     private ObservableList<Event> eventsList = FXCollections.observableArrayList();
     private final int DEMO_USER_ID = 1;
+    private boolean darkTheme = true;
 
     @FXML
     public void initialize() {
         setTodayDate();
 
         // Setup Sorting ComboBox
-        cmbSortEvents.getItems().addAll("By Date (First Delivered)", "New Additions (Added First)");
+        cmbSortEvents.getItems().addAll("By Date (First Delivered)", "New Additions (Last Added)");
 
         javafx.util.Callback<ListView<String>, ListCell<String>> cellFactory = lv -> new ListCell<String>() {
             {
@@ -85,7 +89,7 @@ public class HomeController {
         eventsList.clear();
         String sortSelection = cmbSortEvents.getValue();
         String sortQuery = "event_date ASC";
-        if ("New Additions (Added First)".equals(sortSelection)) {
+        if ("New Additions (Last Added)".equals(sortSelection)) {
             sortQuery = "created_date DESC";
         }
         List<Event> events = eventDAO.getUpcomingEvents(DEMO_USER_ID, sortQuery);
@@ -111,6 +115,20 @@ public class HomeController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void handleThemeToggle(javafx.event.ActionEvent event) {
+        javafx.scene.Scene scene = themeToggleButton.getScene();
+        if (scene == null)
+            return;
+
+        scene.getStylesheets().clear();
+        String stylesheet = darkTheme ? "/css/light-theme.css" : "/css/dark-theme.css";
+        scene.getStylesheets().add(getClass().getResource(stylesheet).toExternalForm());
+        darkTheme = !darkTheme;
+        themeToggleButton.setText(darkTheme ? "Light Mode" : "Dark Mode");
+        System.out.println("Theme switched to: " + (darkTheme ? "dark" : "light"));
     }
 
     public void updateMiniTimer(String timeStr, boolean isRunning) {
@@ -184,20 +202,20 @@ public class HomeController {
                 setGraphic(null);
             } else {
                 titleText.setText(item.getTitle());
-            String dateStr = item.getEventDate() != null ? item.getEventDate().toString() : "";
-            String timeStr = item.getEventTime() != null ? item.getEventTime() : "";
-            dateText.setText(dateStr + "  " + timeStr);
+                String dateStr = item.getEventDate() != null ? item.getEventDate().toString() : "";
+                String timeStr = item.getEventTime() != null ? item.getEventTime() : "";
+                dateText.setText(dateStr + "  " + timeStr);
 
-            Course course = courseDAO.getCourseById(item.getCourseId());
-            if (course != null) {
-                courseText.setText(course.getCourseName());
-                courseText.setFill(Color.web(course.getColorHex()));
-            } else {
-                courseText.setText("Default");
-                courseText.setFill(Color.GRAY);
-            }
+                Course course = courseDAO.getCourseById(item.getCourseId());
+                if (course != null) {
+                    courseText.setText(course.getCourseName());
+                    courseText.setFill(Color.web(course.getColorHex()));
+                } else {
+                    courseText.setText("Default");
+                    courseText.setFill(Color.GRAY);
+                }
 
-            typeLabel.setText(item.getType());
+                typeLabel.setText(item.getType());
                 switch (item.getType()) {
                     case "EXAM":
                         typeLabel.setStyle(typeLabel.getStyle() + "-fx-background-color: #e74c3c;");

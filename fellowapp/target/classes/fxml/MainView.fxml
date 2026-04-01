@@ -80,11 +80,6 @@
     <bottom>
         <HBox alignment="CENTER_RIGHT" spacing="8" styleClass="bottom-bar">
             <Region HBox.hgrow="ALWAYS"/>
-            <Button fx:id="themeToggleButton"
-                    mnemonicParsing="false"
-                    onAction="#handleThemeToggle"
-                    text="Light Mode"
-                    styleClass="theme-toggle-button"/>
         </HBox>
     </bottom>
 </BorderPane>

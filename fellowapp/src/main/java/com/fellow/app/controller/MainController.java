@@ -44,8 +44,6 @@ public class MainController {
 
     // ── Navigation buttons ────────────────────────────────────────────────────
     @FXML
-    private Button themeToggleButton;
-    @FXML
     private Button navButtonHome;
     @FXML
     private Button navButtonCalendar;
@@ -58,7 +56,6 @@ public class MainController {
     @FXML
     private Button navButtonStats;
 
-    private boolean darkTheme = true;
     private Button selectedNavButton;
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────
@@ -92,10 +89,6 @@ public class MainController {
                         statisticsViewController.refresh();
                     }
                 });
-
-        if (themeToggleButton != null) {
-            themeToggleButton.setText(darkTheme ? "Light Mode" : "Dark Mode");
-        }
 
         setSelectedNavButton(navButtonHome);
         System.out.println("MainController initialized.");
@@ -137,22 +130,6 @@ public class MainController {
     public void showStatistics(ActionEvent event) {
         setSelectedNavButton(navButtonStats);
         mainTabPane.getSelectionModel().select(tabStats);
-    }
-
-    // ── Theme toggle ──────────────────────────────────────────────────────────
-
-    @FXML
-    public void handleThemeToggle(ActionEvent event) {
-        Scene scene = themeToggleButton.getScene();
-        if (scene == null)
-            return;
-
-        scene.getStylesheets().clear();
-        String stylesheet = darkTheme ? "/css/light-theme.css" : "/css/dark-theme.css";
-        scene.getStylesheets().add(getClass().getResource(stylesheet).toExternalForm());
-        darkTheme = !darkTheme;
-        themeToggleButton.setText(darkTheme ? "Light Mode" : "Dark Mode");
-        System.out.println("Theme switched to: " + (darkTheme ? "dark" : "light"));
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────

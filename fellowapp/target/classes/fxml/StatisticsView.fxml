@@ -3,6 +3,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.CategoryAxis?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -24,6 +27,7 @@
                     <ToggleButton fx:id="btnDay"   text="Today"      onAction="#handleRangeChange" styleClass="button"/>
                     <ToggleButton fx:id="btnWeek"  text="This Week"  onAction="#handleRangeChange" styleClass="button"/>
                     <ToggleButton fx:id="btnMonth" text="This Month" onAction="#handleRangeChange" styleClass="button"/>
+                    <ToggleButton fx:id="btnTotal" text="Total"      onAction="#handleRangeChange" styleClass="button"/>
                 </HBox>
             </VBox>
 
@@ -44,6 +48,20 @@
                    wrapText="true"
                    maxWidth="600"
                    style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+            <!-- Chart -->
+            <LineChart fx:id="chartStudyTime" 
+                       title="Study Time Activity"
+                       legendSide="BOTTOM"
+                       prefHeight="350"
+                       style="-fx-font-size: 12px; -fx-text-fill: #ffffff; -fx-title-side: top;">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" label="Timeline" style="-fx-text-fill: #ffffff; -fx-tick-label-fill: #ffffff; -fx-font-size: 11px;"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" label="Study Time (minutes)" style="-fx-text-fill: #ffffff; -fx-tick-label-fill: #ffffff; -fx-font-size: 11px;"/>
+                </yAxis>
+            </LineChart>
 
         </VBox>
     </center>
