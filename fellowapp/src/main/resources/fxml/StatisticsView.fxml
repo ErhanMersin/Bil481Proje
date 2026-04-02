@@ -54,12 +54,13 @@
                        title="Study Time Activity"
                        legendSide="BOTTOM"
                        prefHeight="350"
-                       style="-fx-font-size: 12px; -fx-text-fill: #ffffff; -fx-title-side: top;">
+                       styleClass="statistics-chart"
+                       style="-fx-font-size: 12px; -fx-title-side: top;">
                 <xAxis>
-                    <CategoryAxis side="BOTTOM" label="Timeline" style="-fx-text-fill: #ffffff; -fx-tick-label-fill: #ffffff; -fx-font-size: 11px;"/>
+                    <CategoryAxis side="BOTTOM" label="Timeline"/>
                 </xAxis>
                 <yAxis>
-                    <NumberAxis side="LEFT" label="Study Time (minutes)" style="-fx-text-fill: #ffffff; -fx-tick-label-fill: #ffffff; -fx-font-size: 11px;"/>
+                    <NumberAxis side="LEFT" label="Study Time (minutes)"/>
                 </yAxis>
             </LineChart>
 

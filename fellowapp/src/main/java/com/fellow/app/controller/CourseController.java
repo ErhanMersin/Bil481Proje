@@ -13,10 +13,14 @@ import javafx.scene.paint.Color;
 
 public class CourseController {
 
-    @FXML private TextField txtName;
-    @FXML private TextField txtDescription;
-    @FXML private ColorPicker colorPicker;
-    @FXML private ListView<Course> lvCourses;
+    @FXML
+    private TextField txtName;
+    @FXML
+    private TextField txtDescription;
+    @FXML
+    private ColorPicker colorPicker;
+    @FXML
+    private ListView<Course> lvCourses;
 
     private final CourseDAO courseDAO = new CourseDAO();
     private final ObservableList<Course> courseItems = FXCollections.observableArrayList();
@@ -34,9 +38,9 @@ public class CourseController {
 
             {
                 titleLabel.getStyleClass().add("course-title");
-                titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+                titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: black;");
                 descriptionLabel.getStyleClass().add("course-description");
-                descriptionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #555555;");
+                descriptionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
                 textContainer.getChildren().addAll(titleLabel, descriptionLabel);
                 textContainer.setSpacing(4);
                 HBox.setHgrow(textContainer, Priority.ALWAYS);
@@ -75,11 +79,11 @@ public class CourseController {
                     boolean isDefault = isReservedDefaultCourseName(course.getCourseName());
                     deleteButton.setText(isDefault ? "Default" : "Delete");
                     deleteButton.setDisable(isDefault);
-                    String textColor = isDarkHexColor(course.getColorHex()) ? "#FFFFFF" : "#000000";
-                    titleLabel.setTextFill(Color.web(textColor));
-                    descriptionLabel.setTextFill(Color.web(textColor));
-                    deleteButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-text-fill: " + textColor + ";");
-                    cellRoot.setStyle("-fx-background-color: " + course.getColorHex() + "33; -fx-padding: 10px; -fx-background-radius: 10px;");
+                    titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: black;");
+                    descriptionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+                    deleteButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-text-fill: black;");
+                    cellRoot.setStyle("-fx-background-color: " + course.getColorHex()
+                            + "33; -fx-padding: 10px; -fx-background-radius: 10px;");
                     setGraphic(cellRoot);
                 }
             }

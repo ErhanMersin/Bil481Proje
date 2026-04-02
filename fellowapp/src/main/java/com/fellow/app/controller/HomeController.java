@@ -129,6 +129,43 @@ public class HomeController {
         darkTheme = !darkTheme;
         themeToggleButton.setText(darkTheme ? "Light Mode" : "Dark Mode");
         System.out.println("Theme switched to: " + (darkTheme ? "dark" : "light"));
+
+        // Repaint all list cells with new theme driven colors.
+        listUpcomingEvents.refresh();
+    }
+
+    private boolean isDarkMode() {
+        javafx.scene.Scene scene = themeToggleButton != null ? themeToggleButton.getScene() : null;
+        if (scene == null)
+            return true;
+        return scene.getStylesheets().stream().anyMatch(s -> s.contains("dark-theme.css"));
+    }
+
+    private String getModeAdjustedCourseColor(String baseHex, boolean darkMode) {
+        if (baseHex == null || baseHex.isBlank()) {
+            return darkMode ? "#DDDDDD" : "#333333";
+        }
+
+        Color baseColor;
+        try {
+            baseColor = Color.web(baseHex);
+        } catch (Exception e) {
+            return darkMode ? "#DDDDDD" : "#333333";
+        }
+
+        double hue = baseColor.getHue();
+        double sat = baseColor.getSaturation();
+        double bright = baseColor.getBrightness();
+
+        double targetBrightness = darkMode
+                ? Math.min(1.0, bright + 0.35)
+                : Math.max(0.0, bright - 0.35);
+
+        Color adjusted = Color.hsb(hue, sat, targetBrightness);
+        return String.format("#%02X%02X%02X",
+                (int) Math.round(adjusted.getRed() * 255),
+                (int) Math.round(adjusted.getGreen() * 255),
+                (int) Math.round(adjusted.getBlue() * 255));
     }
 
     public void updateMiniTimer(String timeStr, boolean isRunning) {
@@ -206,13 +243,17 @@ public class HomeController {
                 String timeStr = item.getEventTime() != null ? item.getEventTime() : "";
                 dateText.setText(dateStr + "  " + timeStr);
 
+                boolean darkMode = isDarkMode();
+
                 Course course = courseDAO.getCourseById(item.getCourseId());
                 if (course != null) {
                     courseText.setText(course.getCourseName());
-                    courseText.setFill(Color.web(course.getColorHex()));
+                    String colorHex = getModeAdjustedCourseColor(course.getColorHex(), darkMode);
+                    courseText.setStyle("-fx-fill: " + colorHex + ";");
                 } else {
                     courseText.setText("Default");
-                    courseText.setFill(Color.GRAY);
+                    String fallback = darkMode ? "#DDDDDD" : "#333333";
+                    courseText.setStyle("-fx-fill: " + fallback + ";");
                 }
 
                 typeLabel.setText(item.getType());

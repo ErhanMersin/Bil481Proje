@@ -18,10 +18,14 @@ import java.util.List;
 
 public class TodoController {
 
-    @FXML private ComboBox<Course> cmbCourse;
-    @FXML private TextField txtTopic;
-    @FXML private TextField txtDescription;
-    @FXML private ListView<TodoItem> lvTodos;
+    @FXML
+    private ComboBox<Course> cmbCourse;
+    @FXML
+    private TextField txtTopic;
+    @FXML
+    private TextField txtDescription;
+    @FXML
+    private ListView<TodoItem> lvTodos;
 
     private CourseDAO courseDAO = new CourseDAO();
     private TodoItemDAO todoDAO = new TodoItemDAO();
@@ -79,6 +83,14 @@ public class TodoController {
             list = todoDAO.getTodosByUserAndCourse(DEMO_USER_ID, selectedCourse.getId());
         }
         todoItems.addAll(list);
+    }
+
+    private boolean isDarkMode() {
+        javafx.scene.Scene scene = lvTodos != null ? lvTodos.getScene() : null;
+        if (scene == null) {
+            return true;
+        }
+        return scene.getStylesheets().stream().anyMatch(s -> s.contains("dark-theme.css"));
     }
 
     @FXML
@@ -139,7 +151,8 @@ public class TodoController {
 
             courseLabel = new Label();
             courseLabel.getStyleClass().add("todo-course-label");
-            courseLabel.setStyle("-fx-font-size: 11px; -fx-padding: 2 6 2 6; -fx-background-radius: 4; -fx-background-color: #ddd;");
+            courseLabel.setStyle(
+                    "-fx-font-size: 11px; -fx-padding: 2 6 2 6; -fx-background-radius: 4; -fx-background-color: #ddd;");
 
             textContainer = new VBox(topicText, courseLabel, descLabel);
             HBox.setHgrow(textContainer, Priority.ALWAYS);
@@ -173,15 +186,22 @@ public class TodoController {
                 descLabel.setManaged(false);
             }
 
+            boolean darkMode = isDarkMode();
             Course course = courseDAO.getCourseById(item.getCourseId());
             if (course != null) {
                 courseLabel.setText(course.getCourseName());
-                courseLabel.setStyle("-fx-font-size: 11px; -fx-padding: 2 6 2 6; -fx-background-radius: 4; -fx-background-color: " + course.getColorHex() + "33; -fx-text-fill: #222222;");
+                String textColor = darkMode ? "#FFFFFF" : "#222222";
+                courseLabel.setStyle(
+                        "-fx-font-size: 11px; -fx-padding: 2 6 2 6; -fx-background-radius: 4; -fx-background-color: "
+                                + course.getColorHex() + "33; -fx-text-fill: " + textColor + ";");
                 courseLabel.setVisible(true);
                 courseLabel.setManaged(true);
             } else {
                 courseLabel.setText("Unknown course");
-                courseLabel.setStyle("-fx-font-size: 11px; -fx-padding: 2 6 2 6; -fx-background-radius: 4; -fx-background-color: #dddddd; -fx-text-fill: #222222;");
+                String textColor = darkMode ? "#FFFFFF" : "#222222";
+                courseLabel.setStyle(
+                        "-fx-font-size: 11px; -fx-padding: 2 6 2 6; -fx-background-radius: 4; -fx-background-color: #dddddd; -fx-text-fill: "
+                                + textColor + ";");
                 courseLabel.setVisible(true);
                 courseLabel.setManaged(true);
             }

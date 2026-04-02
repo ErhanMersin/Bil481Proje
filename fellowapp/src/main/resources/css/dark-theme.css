@@ -38,7 +38,7 @@
 }
 
 .nav-button:hover {
-    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-background-color: rgba(255, 255, 255, 0.08);
 }
 
 .selected-nav-button {
@@ -55,6 +55,7 @@
     -fx-padding: 10px 24px;
     -fx-cursor: hand;
 }
+
 .button:hover {
     -fx-background-color: #006a50;
 }
@@ -63,6 +64,7 @@
     -fx-background-color: #005B41;
     -fx-text-fill: #ffffff;
 }
+
 .btn-primary:hover {
     -fx-background-color: #003f32;
 }
@@ -72,6 +74,7 @@
     -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
 }
+
 .btn-accent:hover {
     -fx-background-color: #00645e;
 }
@@ -100,8 +103,9 @@
     -fx-border-radius: 8;
     -fx-padding: 8 16;
 }
+
 .theme-toggle-button:hover {
-    -fx-background-color: rgba(0,129,112,0.14);
+    -fx-background-color: rgba(0, 129, 112, 0.14);
 }
 
 .round-icon-button {
@@ -113,6 +117,7 @@
     -fx-background-color: #0F0F0F;
     -fx-text-fill: #008170;
 }
+
 .round-icon-button:hover {
     -fx-background-color: #232D3F;
 }
@@ -122,6 +127,7 @@
     -fx-text-fill: #a8d6ca;
     -fx-font-size: 28px;
 }
+
 .icon-button:hover {
     -fx-text-fill: #ffffff;
 }
@@ -143,23 +149,26 @@
     -fx-text-fill: #ffffff;
 }
 
-.mini-timer-box {
-    -fx-background-color: #0F0F0F;
+.mini-timer-box,
+.mini-timer-widget {
+    -fx-background-color: #1b2932;
     -fx-padding: 5 15;
     -fx-background-radius: 20;
-    -fx-border-color: #008170;
+    -fx-border-color: #44ACFF;
     -fx-border-width: 2;
     -fx-border-radius: 20;
     -fx-cursor: hand;
 }
 
-.mini-timer-icon {
-    -fx-text-fill: #008170;
+.mini-timer-icon,
+.mini-timer-label {
+    -fx-text-fill: #E4F8FF;
     -fx-font-size: 18px;
+    -fx-font-weight: bold;
 }
 
 .mini-timer-text {
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #E4F8FF;
     -fx-font-size: 18px;
     -fx-font-weight: bold;
 }
@@ -187,45 +196,68 @@
 }
 
 .input-select,
-    .form-textfield {
-        -fx-background-color: #232D3F;
-        -fx-text-fill: white;
-        -fx-prompt-text-fill: #bbbbbb;
-    }
+.form-textfield {
+    -fx-background-color: #232D3F;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #bbbbbb;
+}
 
-    .combo-box {
-        -fx-background-color: #232D3F;
-    }
-    .combo-box .text-field {
-        -fx-background-color: #232D3F;
-        -fx-text-fill: white;
-        -fx-prompt-text-fill: #bbbbbb;
-    }
-    .combo-box .arrow-button {
-        -fx-background-color: transparent;
-    }
-    .combo-box .arrow {
-        -fx-fill: white;
-    }
-    .combo-box .button-cell,
-    .combo-box .list-cell,
-    .combo-button-cell,
-    .combo-list-cell {
-        -fx-text-fill: white;
-        -fx-background-color: transparent;
-    }
-    .combo-box .list-view {
-        -fx-background-color: #232D3F;
-    }
-    .combo-box .list-cell:hover {
-        -fx-background-color: #2D2F3A;
-    }
-    .combo-box .list-cell:selected {
-        -fx-background-color: rgba(0, 129, 112, 0.35);
-        -fx-text-fill: white;
-    }
-    .combo-box .list-cell:selected:hover {
-        -fx-background-color: rgba(0, 129, 112, 0.45);
+.combo-box {
+    -fx-background-color: #232D3F;
+}
+
+.combo-box .text-field {
+    -fx-background-color: #232D3F;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #bbbbbb;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow {
+    -fx-fill: white;
+}
+
+/* Chart colors for dark mode */
+.statistics-chart .chart-title,
+.statistics-chart .legend {
+    -fx-text-fill: #ffffff;
+}
+
+.statistics-chart .axis .axis-label,
+.statistics-chart .axis .tick-label {
+    -fx-text-fill: #ffffff;
+}
+
+.statistics-chart .chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.combo-box .button-cell,
+.combo-box .list-cell,
+.combo-button-cell,
+.combo-list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+}
+
+.combo-box .list-view {
+    -fx-background-color: #232D3F;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #2D2F3A;
+}
+
+.combo-box .list-cell:selected {
+    -fx-background-color: rgba(0, 129, 112, 0.35);
+    -fx-text-fill: white;
+}
+
+.combo-box .list-cell:selected:hover {
+    -fx-background-color: rgba(0, 129, 112, 0.45);
     -fx-text-fill: white;
 }
 
@@ -249,6 +281,7 @@
     -fx-border-color: #232D3F;
     -fx-border-width: 1;
 }
+
 .event-cell:hover {
     -fx-background-color: #232D3F;
 }
@@ -256,6 +289,11 @@
 .event-title,
 .daily-event-title,
 .todo-topic-text {
+    -fx-fill: #ffffff;
+}
+
+.event-course-text,
+.daily-event-course {
     -fx-fill: #ffffff;
 }
 
@@ -276,6 +314,7 @@
     -fx-border-color: #232D3F;
     -fx-border-width: 1;
 }
+
 .todo-item-cell:hover {
     -fx-background-color: #232D3F;
 }
@@ -291,6 +330,7 @@
     -fx-border-color: #232D3F;
     -fx-border-width: 1;
 }
+
 .calendar-day-cell:hover {
     -fx-background-color: #232D3F;
 }
@@ -339,6 +379,7 @@
     -fx-cursor: hand;
     -fx-font-weight: bold;
 }
+
 .calendar-nav-button:hover {
     -fx-text-fill: #005B41;
 }
@@ -411,8 +452,13 @@ Button {
 .todo-root {
     -fx-background-color: #1e1e1e;
 }
+
 .task-panel {
     -fx-background-color: #1e1e1e;
+}
+
+.daily-event-title {
+    -fx-fill: #ffffff;
 }
 
 .todo-list {
