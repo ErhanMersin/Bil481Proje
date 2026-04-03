@@ -10,12 +10,18 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 
 public class AddEventController {
-    @FXML private TextField txtTitle;
-    @FXML private ComboBox<String> cmbType;
-    @FXML private ComboBox<Course> cmbCourse;
-    @FXML private DatePicker dpDate;
-    @FXML private TextField txtTime;
-    @FXML private TextField txtDesc;
+    @FXML
+    private TextField txtTitle;
+    @FXML
+    private ComboBox<String> cmbType;
+    @FXML
+    private ComboBox<Course> cmbCourse;
+    @FXML
+    private DatePicker dpDate;
+    @FXML
+    private TextField txtTime;
+    @FXML
+    private TextField txtDesc;
 
     private boolean isSaved = false;
     private final int DEMO_USER_ID = 1;
@@ -23,7 +29,7 @@ public class AddEventController {
 
     @FXML
     public void initialize() {
-        cmbType.getItems().addAll("EXAM", "PROJECT", "HOMEWORK", "QUIZ", "LECTURE");
+        cmbType.getItems().addAll("EXAM", "PROJECT", "HOMEWORK", "QUIZ", "LECTURE", "OTHER");
 
         cmbCourse.getItems().setAll(courseDAO.getCoursesByUserId(DEMO_USER_ID));
         Course defaultCourse = courseDAO.getOrCreateDefaultCourse(DEMO_USER_ID);
@@ -85,10 +91,10 @@ public class AddEventController {
         }
         e.setUserId(DEMO_USER_ID);
         e.setEventDate(date);
-        
+
         String timeStr = txtTime.getText().trim();
         e.setEventTime(timeStr.isEmpty() ? null : timeStr); // Allow null for optional time
-        
+
         String descStr = txtDesc.getText().trim();
         e.setDescription(descStr.isEmpty() ? null : descStr);
 

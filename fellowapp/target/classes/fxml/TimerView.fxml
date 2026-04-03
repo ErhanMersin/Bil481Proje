@@ -43,6 +43,8 @@
                                 styleClass="button-pause" text="Pause"/>
                         <Button fx:id="resetButton" onAction="#handleReset"
                                 styleClass="button-reset" text="Reset"/>
+                        <Button fx:id="cancelButton" onAction="#handleCancel"
+                                styleClass="button-reset" text="Cancel"/>
                     </children>
                 </HBox>
 

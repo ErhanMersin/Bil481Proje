@@ -15,9 +15,12 @@ import com.fellow.app.model.Course;
 
 public class TimerController {
 
-    @FXML private Label timerLabel;
-    @FXML private Button startButton;
-    @FXML private ComboBox<Course> cmbCourse;
+    @FXML
+    private Label timerLabel;
+    @FXML
+    private Button startButton;
+    @FXML
+    private ComboBox<Course> cmbCourse;
 
     private CourseDAO courseDAO = new CourseDAO();
     private final int DEMO_USER_ID = 1;
@@ -54,7 +57,8 @@ public class TimerController {
 
     @FXML
     public void handleStart(ActionEvent event) {
-        if (isRunning) return;
+        if (isRunning)
+            return;
 
         isRunning = true;
         startButton.setText("Running...");
@@ -89,25 +93,33 @@ public class TimerController {
     @FXML
     public void handleReset(ActionEvent event) {
         // If user manually clicks reset, save whatever time elapsed so far!
-        stopAndReset(true); 
+        stopAndReset(true);
         System.out.println("Timer reset manually.");
+    }
+
+    @FXML
+    public void handleCancel(ActionEvent event) {
+        // Cancel: reset timer without saving any progress
+        stopAndReset(false);
+        System.out.println("Timer cancelled.");
     }
 
     /**
      * Core logic for stopping the timer and saving partial/full sessions.
      */
     private void stopAndReset(boolean saveProgress) {
-        if (timeline != null) timeline.stop();
-        
+        if (timeline != null)
+            timeline.stop();
+
         if (saveProgress) {
             int elapsedSeconds = defaultTimeSeconds - timeSeconds;
-            
+
             // Only save if they actually studied for at least 1 second
             if (elapsedSeconds > 0) {
                 saveSessionToDatabase(elapsedSeconds);
             }
         }
-        
+
         isRunning = false;
         timeSeconds = defaultTimeSeconds;
         updateLabel();
@@ -125,7 +137,8 @@ public class TimerController {
 
         // Save the study session
         new StudySessionDAO().addSession(selectedCourse.getId(), DEMO_USER_ID, durationSeconds, pomodoroCount);
-        System.out.println("Session saved successfully: " + durationSeconds + " seconds for " + selectedCourse.getCourseName());
+        System.out.println(
+                "Session saved successfully: " + durationSeconds + " seconds for " + selectedCourse.getCourseName());
     }
 
     @FXML
@@ -165,8 +178,9 @@ public class TimerController {
 
     @FXML
     public void handleMiniMode() {
-        if (timerLabel.getScene() == null) return;
-        
+        if (timerLabel.getScene() == null)
+            return;
+
         // Find and display the widget box securely in top bar
         javafx.scene.layout.HBox widget = (javafx.scene.layout.HBox) timerLabel.getScene().lookup("#miniTimerWidget");
         if (widget != null) {
@@ -175,6 +189,7 @@ public class TimerController {
         }
 
         TabPane tabPane = (TabPane) timerLabel.getScene().lookup("#mainTabPane");
-        if (tabPane != null) tabPane.getSelectionModel().select(0);
+        if (tabPane != null)
+            tabPane.getSelectionModel().select(0);
     }
 }
