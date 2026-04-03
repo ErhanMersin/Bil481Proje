@@ -361,6 +361,17 @@
     -fx-text-fill: #003049;
 }
 
+.todo-topic-text {
+    -fx-fill: #000000;
+}
+
+.statistics-chart .axis .axis-label,
+.statistics-chart .axis .tick-label,
+.statistics-chart .axis-label,
+.statistics-chart .tick-label {
+    -fx-text-fill: #000000;
+}
+
 .list-panel .list-cell:hover {
     -fx-background-color: #F9F6C4;
 }

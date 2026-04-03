@@ -212,7 +212,7 @@ public class TodoController {
                 topicText.setFill(Color.gray(0.5));
             } else {
                 topicText.setStrikethrough(false);
-                topicText.setFill(null);
+                topicText.setFill(darkMode ? Color.WHITE : Color.web("#222222"));
             }
         }
 

@@ -227,13 +227,29 @@
 }
 
 .statistics-chart .axis .axis-label,
-.statistics-chart .axis .tick-label {
+.statistics-chart .axis .tick-label,
+.statistics-chart .axis .label,
+.statistics-chart .axis .tick-mark {
     -fx-text-fill: #ffffff;
 }
 
 .statistics-chart .chart-plot-background {
     -fx-background-color: transparent;
 }
+
+/* Force axis labels/ticks to ensure dark theme readability */
+.statistics-chart .axis-label,
+.statistics-chart .tick-label,
+.statistics-chart .axis .axis-label,
+.statistics-chart .axis .tick-label {
+    -fx-text-fill: #ffffff;
+}
+
+/* Todo list topic visible always */
+.todo-topic-text {
+    -fx-fill: #ffffff;
+}
+
 
 .combo-box .button-cell,
 .combo-box .list-cell,

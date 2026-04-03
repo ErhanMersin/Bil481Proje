@@ -12,6 +12,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.paint.Color;
 import java.util.List;
 import java.util.Map;
 
@@ -167,6 +168,26 @@ public class StatisticsController {
         chartStudyTime.setTitle("Study Time Activity - " + currentStrategy.label());
 
         // Update Y-axis label to show hours : minutes format
-        ((NumberAxis) chartStudyTime.getYAxis()).setLabel("Study Time (minutes)");
+        NumberAxis yAxis = (NumberAxis) chartStudyTime.getYAxis();
+        CategoryAxis xAxis = (CategoryAxis) chartStudyTime.getXAxis();
+        yAxis.setLabel("Study Time (minutes)");
+
+        boolean darkMode = chartStudyTime.getScene() != null
+                && chartStudyTime.getScene().getStylesheets().stream().anyMatch(s -> s.contains("dark-theme.css"));
+
+        if (darkMode) {
+            xAxis.setTickLabelFill(Color.WHITE);
+            yAxis.setTickLabelFill(Color.WHITE);
+            chartStudyTime.lookupAll(".axis-label").forEach(node -> node.setStyle("-fx-text-fill: white;"));
+            chartStudyTime.lookupAll(".tick-label").forEach(node -> node.setStyle("-fx-text-fill: white;"));
+            chartStudyTime.lookupAll(".chart-title").forEach(node -> node.setStyle("-fx-text-fill: white;"));
+            chartStudyTime.setStyle("-fx-base: #0F0F0F;");
+        } else {
+            xAxis.setTickLabelFill(Color.BLACK);
+            yAxis.setTickLabelFill(Color.BLACK);
+            chartStudyTime.lookupAll(".axis-label").forEach(node -> node.setStyle("-fx-text-fill: black;"));
+            chartStudyTime.lookupAll(".tick-label").forEach(node -> node.setStyle("-fx-text-fill: black;"));
+            chartStudyTime.lookupAll(".chart-title").forEach(node -> node.setStyle("-fx-text-fill: black;"));
+        }
     }
 }
