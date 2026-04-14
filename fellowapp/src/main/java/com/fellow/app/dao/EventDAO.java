@@ -17,11 +17,12 @@ public class EventDAO {
         if ("created_date DESC".equals(sortBy)) {
             orderClause = "created_date DESC";
         }
-        
-        String sql = "SELECT * FROM events WHERE user_id = ? ORDER BY " + orderClause + ", id DESC";
-        
+
+        String sql = "SELECT * FROM events WHERE user_id = ? AND event_date >= CURRENT_DATE ORDER BY " + orderClause
+                + ", id DESC";
+
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
@@ -37,8 +38,8 @@ public class EventDAO {
     public boolean addEvent(Event event) {
         String sql = "INSERT INTO events (title, type, course_id, event_date, event_time, description, user_id, created_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            
+                PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
             pstmt.setString(1, event.getTitle());
             pstmt.setString(2, event.getType());
             pstmt.setInt(3, event.getCourseId());
@@ -46,11 +47,11 @@ public class EventDAO {
             pstmt.setString(5, event.getEventTime());
             pstmt.setString(6, event.getDescription());
             pstmt.setInt(7, event.getUserId());
-            
+
             String now = LocalDateTime.now().format(dtFormatter);
             pstmt.setString(8, now);
             event.setCreatedDate(LocalDateTime.now());
-            
+
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
@@ -69,11 +70,11 @@ public class EventDAO {
     public boolean deleteEvent(int id) {
         String sql = "DELETE FROM events WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
             pstmt.setInt(1, id);
             return pstmt.executeUpdate() > 0;
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,10 +85,10 @@ public class EventDAO {
         List<Event> events = new ArrayList<>();
         String monthStr = String.format("%04d-%02d", year, month);
         String sql = "SELECT * FROM events WHERE user_id = ? AND event_date LIKE ? ORDER BY event_date ASC, event_time ASC";
-        
+
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
             pstmt.setInt(1, userId);
             pstmt.setString(2, monthStr + "%");
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -104,10 +105,10 @@ public class EventDAO {
     public List<Event> getEventsByDate(int userId, LocalDate date) {
         List<Event> events = new ArrayList<>();
         String sql = "SELECT * FROM events WHERE user_id = ? AND event_date = ? ORDER BY event_time ASC";
-        
+
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
             pstmt.setInt(1, userId);
             pstmt.setString(2, date.toString());
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -138,7 +139,8 @@ public class EventDAO {
         if (cd != null && !cd.isEmpty()) {
             try {
                 e.setCreatedDate(LocalDateTime.parse(cd.replace("T", " ").substring(0, 19), dtFormatter));
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+            }
         }
         return e;
     }

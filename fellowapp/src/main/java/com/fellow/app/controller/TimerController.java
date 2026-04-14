@@ -4,14 +4,17 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.util.Duration;
+import javafx.application.Platform;
 import com.fellow.app.dao.StudySessionDAO;
 import com.fellow.app.dao.CourseDAO;
 import com.fellow.app.model.Course;
+import java.awt.Toolkit;
 
 public class TimerController {
 
@@ -29,6 +32,7 @@ public class TimerController {
     private int timeSeconds = 25 * 60;
     private int defaultTimeSeconds = 25 * 60;
     private boolean isRunning = false;
+    private boolean timerFinished = false;
 
     @FXML
     public void initialize() {
@@ -61,6 +65,7 @@ public class TimerController {
             return;
 
         isRunning = true;
+        timerFinished = false;
         startButton.setText("Running...");
         System.out.println("Timer started.");
 
@@ -70,9 +75,28 @@ public class TimerController {
                 updateLabel();
 
                 // When timer naturally reaches 0
-                if (timeSeconds <= 0) {
-                    stopAndReset(true); // Stop and save the FULL time
-                    System.out.println("Timer finished naturally.");
+                if (timeSeconds <= 0 && !timerFinished) {
+                    timerFinished = true;
+
+                    // Play notification sound
+                    Toolkit.getDefaultToolkit().beep();
+
+                    // Stop timeline immediately
+                    if (timeline != null) {
+                        timeline.stop();
+                    }
+
+                    // Show popup notification on JavaFX thread
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Timer Finished");
+                        alert.setHeaderText("Study Session Complete!");
+                        alert.setContentText("Great job! Your study session has finished.");
+                        alert.showAndWait();
+
+                        stopAndReset(true); // Stop and save the FULL time
+                        System.out.println("Timer finished naturally.");
+                    });
                 }
             }));
             timeline.setCycleCount(Timeline.INDEFINITE);
@@ -108,8 +132,10 @@ public class TimerController {
      * Core logic for stopping the timer and saving partial/full sessions.
      */
     private void stopAndReset(boolean saveProgress) {
-        if (timeline != null)
+        if (timeline != null) {
             timeline.stop();
+            timeline = null; // Reset timeline for next use
+        }
 
         if (saveProgress) {
             int elapsedSeconds = defaultTimeSeconds - timeSeconds;
@@ -121,6 +147,7 @@ public class TimerController {
         }
 
         isRunning = false;
+        timerFinished = false;
         timeSeconds = defaultTimeSeconds;
         updateLabel();
         startButton.setText("Start");
