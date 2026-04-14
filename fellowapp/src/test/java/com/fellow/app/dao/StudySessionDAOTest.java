@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -122,5 +123,50 @@ public class StudySessionDAOTest {
         
         // Final sanity check
         assertEquals(2000, sumOfValues, "The aggregate across the map should be exactly the 2000 we put in");
+    }
+
+    @Test
+    void testGetCourseNamesStudiedInRange() {
+        // Add sessions for different courses - but since seed only has courseId=1, add multiple sessions
+        dao.addSession(1, 1, 1000, 1); // courseId=1
+        dao.addSession(1, 1, 1500, 1); // courseId=1 again
+
+        // Get course names studied in a wide date range
+        String today = LocalDate.now().toString();
+        String yesterday = LocalDate.now().minusDays(1).toString();
+        String tomorrow = LocalDate.now().plusDays(1).toString();
+
+        List<String> courseNames = dao.getCourseNamesStudiedInRange(1, yesterday, tomorrow);
+
+        // Should contain the default course
+        assertTrue(courseNames.size() >= 1, "Should have at least 1 course studied");
+        assertTrue(courseNames.contains("Default"), "Should contain Default course");
+    }
+
+    @Test
+    void testGetCourseIdByName() {
+        // Test getting course ID by name - use "Default" which is seeded
+        int courseId = dao.getCourseIdByName(1, "Default");
+        assertTrue(courseId > 0, "Should return a valid course ID for existing course");
+
+        // Test non-existing course
+        int invalidCourseId = dao.getCourseIdByName(1, "Non-existing Course");
+        assertEquals(-1, invalidCourseId, "Should return -1 for non-existing course");
+    }
+
+    @Test
+    void testGetMonthlyChartData() {
+        // Add a session this month
+        dao.addSession(1, 1, 3000, 2);
+
+        // Get monthly chart data for user
+        Map<String, Integer> monthlyData = dao.getMonthlyChartData(1);
+
+        // Should have at least current month
+        assertFalse(monthlyData.isEmpty(), "Monthly data should not be empty");
+
+        // Get monthly chart data for specific course
+        Map<String, Integer> courseMonthlyData = dao.getMonthlyChartData(1, 1);
+        assertFalse(courseMonthlyData.isEmpty(), "Course-specific monthly data should not be empty");
     }
 }

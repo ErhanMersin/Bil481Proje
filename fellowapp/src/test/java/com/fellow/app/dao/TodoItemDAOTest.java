@@ -125,4 +125,24 @@ public class TodoItemDAOTest {
         }
         assertFalse(found, "The deleted todo should not be in the returned list");
     }
+
+    @Test
+    void testGetTodosByUserAndCourse() {
+        // Create todos for different courses - use courseId=1 for all since that's what's seeded
+        TodoItem item1 = new TodoItem(1, 1, "Course 1 Task 1", "Description 1");
+        TodoItem item2 = new TodoItem(1, 1, "Course 1 Task 2", "Description 2");
+        TodoItem item3 = new TodoItem(1, 1, "Course 1 Task 3", "Description 3");
+
+        dao.addTodo(item1);
+        dao.addTodo(item2);
+        dao.addTodo(item3);
+
+        // Get todos for course 1
+        List<TodoItem> course1Todos = dao.getTodosByUserAndCourse(1, 1);
+        assertEquals(3, course1Todos.size(), "Should have 3 todos for course 1");
+
+        // Get todos for non-existing course
+        List<TodoItem> emptyTodos = dao.getTodosByUserAndCourse(1, 999);
+        assertTrue(emptyTodos.isEmpty(), "Should return empty list for non-existing course");
+    }
 }
