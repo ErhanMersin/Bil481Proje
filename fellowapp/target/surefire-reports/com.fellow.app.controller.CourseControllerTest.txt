@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: com.fellow.app.controller.CourseControllerTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.143 s <<< FAILURE! -- in com.fellow.app.controller.CourseControllerTest
+com.fellow.app.controller.CourseControllerTest.testHandleAddCourse -- Time elapsed: 0.030 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "javafx.scene.control.ColorPicker.getValue()" because "this.colorPicker" is null
+	at com.fellow.app.controller.CourseController.handleAddCourse(CourseController.java:104)
+	at com.fellow.app.controller.CourseControllerTest.testHandleAddCourse(CourseControllerTest.java:69)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
