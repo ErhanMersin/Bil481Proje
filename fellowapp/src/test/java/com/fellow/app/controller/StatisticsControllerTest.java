@@ -4,6 +4,9 @@ import com.fellow.app.dao.CourseDAO;
 import com.fellow.app.service.StatisticsService;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,11 +50,15 @@ class StatisticsControllerTest {
 
             java.lang.reflect.Field cmbCourseField = StatisticsController.class.getDeclaredField("cmbCourse");
             cmbCourseField.setAccessible(true);
-            cmbCourseField.set(statisticsController, cmbCourse);
+            cmbCourseField.set(statisticsController, new ComboBox<String>());
 
             java.lang.reflect.Field lblResultField = StatisticsController.class.getDeclaredField("lblResult");
             lblResultField.setAccessible(true);
             lblResultField.set(statisticsController, lblResult);
+
+            java.lang.reflect.Field chartStudyTimeField = StatisticsController.class.getDeclaredField("chartStudyTime");
+            chartStudyTimeField.setAccessible(true);
+            chartStudyTimeField.set(statisticsController, new LineChart<>(new CategoryAxis(), new NumberAxis()));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,9 +69,16 @@ class StatisticsControllerTest {
     void testRefresh() {
         // Arrange
         when(courseDAO.getCoursesByUserId(1)).thenReturn(java.util.Arrays.asList());
-        when(statsService.getTotalStudyTime()).thenReturn(0);
-        when(statsService.getMostStudiedCourse()).thenReturn(null);
-        when(statsService.getAverageSessionDuration()).thenReturn(0);
+        // Set currentStrategy to avoid early return
+        try {
+            java.lang.reflect.Field currentStrategyField = StatisticsController.class
+                    .getDeclaredField("currentStrategy");
+            currentStrategyField.setAccessible(true);
+            currentStrategyField.set(statisticsController,
+                    new com.fellow.app.service.StatisticsService.DailyStrategy());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Act
         statisticsController.refresh();

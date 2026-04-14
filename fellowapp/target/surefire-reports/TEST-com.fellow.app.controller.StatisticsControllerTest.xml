@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fellow.app.controller.StatisticsControllerTest" time="0.089" tests="1" errors="0" skipped="0" failures="1">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fellow.app.controller.StatisticsControllerTest" time="0.221" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="javafx.runtime.version" value="17.0.2-ea+3"/>
@@ -19,7 +19,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="TR"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-23\bin"/>
-    <property name="sun.java.command" value="C:\Users\ONAL\AppData\Local\Temp\surefire3209857335835649571\surefirebooter-20260414134842153_3.jar C:\Users\ONAL\AppData\Local\Temp\surefire3209857335835649571 2026-04-14T13-48-41_980-jvmRun1 surefire-20260414134842153_1tmp surefire_0-20260414134842153_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\ONAL\AppData\Local\Temp\surefire16230341468341459290\surefirebooter-20260414175709534_3.jar C:\Users\ONAL\AppData\Local\Temp\surefire16230341468341459290 2026-04-14T17-57-09_315-jvmRun1 surefire-20260414175709534_1tmp surefire_0-20260414175709534_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\ONAL\Documents\GitHub\Bil481Proje\fellowapp\target\test-classes;C:\Users\ONAL\Documents\GitHub\Bil481Proje\fellowapp\target\classes;C:\Users\ONAL\.m2\repository\org\openjfx\javafx-controls\17.0.2\javafx-controls-17.0.2.jar;C:\Users\ONAL\.m2\repository\org\openjfx\javafx-controls\17.0.2\javafx-controls-17.0.2-win.jar;C:\Users\ONAL\.m2\repository\org\openjfx\javafx-graphics\17.0.2\javafx-graphics-17.0.2.jar;C:\Users\ONAL\.m2\repository\org\openjfx\javafx-graphics\17.0.2\javafx-graphics-17.0.2-win.jar;C:\Users\ONAL\.m2\repository\org\openjfx\javafx-base\17.0.2\javafx-base-17.0.2.jar;C:\Users\ONAL\.m2\repository\org\openjfx\javafx-base\17.0.2\javafx-base-17.0.2-win.jar;C:\Users\ONAL\.m2\repository\org\openjfx\javafx-fxml\17.0.2\javafx-fxml-17.0.2.jar;C:\Users\ONAL\.m2\repository\org\openjfx\javafx-fxml\17.0.2\javafx-fxml-17.0.2-win.jar;C:\Users\ONAL\.m2\repository\org\xerial\sqlite-jdbc\3.45.1.0\sqlite-jdbc-3.45.1.0.jar;C:\Users\ONAL\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\ONAL\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\ONAL\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\ONAL\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\ONAL\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\ONAL\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\ONAL\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\ONAL\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\ONAL\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\ONAL\.m2\repository\org\mockito\mockito-core\5.11.0\mockito-core-5.11.0.jar;C:\Users\ONAL\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.12\byte-buddy-agent-1.14.12.jar;C:\Users\ONAL\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\ONAL\.m2\repository\net\bytebuddy\byte-buddy\1.14.12\byte-buddy-1.14.12.jar;C:\Users\ONAL\.m2\repository\org\testfx\testfx-junit5\4.0.16-alpha\testfx-junit5-4.0.16-alpha.jar;C:\Users\ONAL\.m2\repository\org\testfx\testfx-core\4.0.16-alpha\testfx-core-4.0.16-alpha.jar;C:\Users\ONAL\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\ONAL\.m2\repository\org\assertj\assertj-core\3.13.2\assertj-core-3.13.2.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -38,7 +38,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="testfx.robot" value="glass"/>
     <property name="java.awt.headless" value="true"/>
-    <property name="surefire.real.class.path" value="C:\Users\ONAL\AppData\Local\Temp\surefire3209857335835649571\surefirebooter-20260414134842153_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\ONAL\AppData\Local\Temp\surefire16230341468341459290\surefirebooter-20260414175709534_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="23.0.1+11-39"/>
@@ -67,17 +67,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="testRefresh" classname="com.fellow.app.controller.StatisticsControllerTest" time="0.085">
-    <failure message="&#10;Wanted but not invoked:&#10;courseDAO.getCoursesByUserId(1);&#10;-&gt; at com.fellow.app.dao.CourseDAO.getCoursesByUserId(CourseDAO.java:16)&#10;Actually, there were zero interactions with this mock.&#10;" type="Wanted but not invoked"><![CDATA[Wanted but not invoked:
-courseDAO.getCoursesByUserId(1);
--> at com.fellow.app.dao.CourseDAO.getCoursesByUserId(CourseDAO.java:16)
-Actually, there were zero interactions with this mock.
-
-	at com.fellow.app.dao.CourseDAO.getCoursesByUserId(CourseDAO.java:16)
-	at com.fellow.app.controller.StatisticsControllerTest.testRefresh(StatisticsControllerTest.java:70)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-]]></failure>
-  </testcase>
+  <testcase name="testRefresh" classname="com.fellow.app.controller.StatisticsControllerTest" time="0.218"/>
 </testsuite>
