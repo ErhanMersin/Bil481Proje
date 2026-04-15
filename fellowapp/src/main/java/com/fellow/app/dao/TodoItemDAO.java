@@ -29,6 +29,13 @@ public class TodoItemDAO {
                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
                     if (rs.next()) {
                         item.setId(rs.getInt(1));
+                    } else {
+                        try (Statement keyStmt = conn.createStatement();
+                             ResultSet keyRs = keyStmt.executeQuery("SELECT last_insert_rowid()")) {
+                            if (keyRs.next()) {
+                                item.setId(keyRs.getInt(1));
+                            }
+                        }
                     }
                 }
                 return true;

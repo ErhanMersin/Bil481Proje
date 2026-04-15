@@ -102,8 +102,16 @@ public class CourseDAO {
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
-                    if (rs.next())
+                    if (rs.next()) {
                         course.setId(rs.getInt(1));
+                    } else {
+                        try (Statement keyStmt = conn.createStatement();
+                             ResultSet keyRs = keyStmt.executeQuery("SELECT last_insert_rowid()")) {
+                            if (keyRs.next()) {
+                                course.setId(keyRs.getInt(1));
+                            }
+                        }
+                    }
                 }
                 return true;
             }
