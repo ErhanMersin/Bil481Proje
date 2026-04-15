@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fellow.app.controller.TimerControllerTest" time="0.041" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fellow.app.integration.EventManagementIntegrationTest" time="0.409" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="javafx.runtime.version" value="17.0.2-ea+3"/>
@@ -67,5 +67,28 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="testRefreshLoadsCourses" classname="com.fellow.app.controller.TimerControllerTest" time="0.039"/>
+  <testcase name="testGetUpcomingEventsOrderedByDate" classname="com.fellow.app.integration.EventManagementIntegrationTest" time="0.069">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testAddEventToDefaultCourse" classname="com.fellow.app.integration.EventManagementIntegrationTest" time="0.054">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testCompleteEventWorkflowMultipleCourses" classname="com.fellow.app.integration.EventManagementIntegrationTest" time="0.098">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testAddMultipleCoursesAndEvents" classname="com.fellow.app.integration.EventManagementIntegrationTest" time="0.07">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testGetEventsByMonth" classname="com.fellow.app.integration.EventManagementIntegrationTest" time="0.057">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testDeleteEventAndVerifyRemoval" classname="com.fellow.app.integration.EventManagementIntegrationTest" time="0.056">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
 </testsuite>

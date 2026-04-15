@@ -1,18 +1,18 @@
 package com.fellow.app.controller;
 
+import com.fellow.app.util.NotificationUtil;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.util.Duration;
 import javafx.application.Platform;
-import com.fellow.app.dao.StudySessionDAO;
-import com.fellow.app.dao.CourseDAO;
+import com.fellow.app.service.StudySessionService;
+import com.fellow.app.service.CourseService;
 import com.fellow.app.model.Course;
 import java.awt.Toolkit;
 
@@ -25,7 +25,8 @@ public class TimerController {
     @FXML
     private ComboBox<Course> cmbCourse;
 
-    private CourseDAO courseDAO = new CourseDAO();
+    private CourseService courseService = new CourseService();
+    private StudySessionService studySessionService = new StudySessionService();
     private final int DEMO_USER_ID = 1;
 
     private Timeline timeline;
@@ -45,12 +46,12 @@ public class TimerController {
             return;
         }
         Course previous = cmbCourse.getValue();
-        var courses = courseDAO.getCoursesByUserId(DEMO_USER_ID);
+        var courses = courseService.getCoursesByUserId(DEMO_USER_ID);
         cmbCourse.getItems().setAll(courses);
         if (previous != null && courses.contains(previous)) {
             cmbCourse.getSelectionModel().select(previous);
         } else {
-            Course defaultCourse = courseDAO.getOrCreateDefaultCourse(DEMO_USER_ID);
+            Course defaultCourse = courseService.getOrCreateDefaultCourse(DEMO_USER_ID);
             if (defaultCourse != null && courses.contains(defaultCourse)) {
                 cmbCourse.getSelectionModel().select(defaultCourse);
             } else if (!courses.isEmpty()) {
@@ -88,11 +89,7 @@ public class TimerController {
 
                     // Show popup notification on JavaFX thread
                     Platform.runLater(() -> {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Timer Finished");
-                        alert.setHeaderText("Study Session Complete!");
-                        alert.setContentText("Great job! Your study session has finished.");
-                        alert.showAndWait();
+                        NotificationUtil.showInfo("Timer Finished", "Study Session Complete!\nGreat job! Your study session has finished.");
 
                         stopAndReset(true); // Stop and save the FULL time
                         System.out.println("Timer finished naturally.");
@@ -156,14 +153,14 @@ public class TimerController {
     private void saveSessionToDatabase(int durationSeconds) {
         Course selectedCourse = cmbCourse != null ? cmbCourse.getValue() : null;
         if (selectedCourse == null) {
-            selectedCourse = courseDAO.getOrCreateDefaultCourse(DEMO_USER_ID);
+            selectedCourse = courseService.getOrCreateDefaultCourse(DEMO_USER_ID);
         }
 
         // If they finished the whole time, it counts as 1 full pomodoro, else 0.
         int pomodoroCount = (durationSeconds >= defaultTimeSeconds) ? 1 : 0;
 
         // Save the study session
-        new StudySessionDAO().addSession(selectedCourse.getId(), DEMO_USER_ID, durationSeconds, pomodoroCount);
+        studySessionService.addSession(selectedCourse.getId(), DEMO_USER_ID, durationSeconds, pomodoroCount);
         System.out.println(
                 "Session saved successfully: " + durationSeconds + " seconds for " + selectedCourse.getCourseName());
     }

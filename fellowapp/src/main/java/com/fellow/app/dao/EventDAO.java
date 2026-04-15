@@ -1,15 +1,14 @@
 package com.fellow.app.dao;
 
 import com.fellow.app.model.Event;
+import com.fellow.app.util.DateTimeUtil;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventDAO {
-    private static final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public List<Event> getUpcomingEvents(int userId, String sortBy) {
         List<Event> events = new ArrayList<>();
@@ -48,7 +47,7 @@ public class EventDAO {
             pstmt.setString(6, event.getDescription());
             pstmt.setInt(7, event.getUserId());
 
-            String now = LocalDateTime.now().format(dtFormatter);
+            String now = DateTimeUtil.formatDateTime(LocalDateTime.now());
             pstmt.setString(8, now);
             event.setCreatedDate(LocalDateTime.now());
 
@@ -145,7 +144,7 @@ public class EventDAO {
         String cd = rs.getString("created_date");
         if (cd != null && !cd.isEmpty()) {
             try {
-                e.setCreatedDate(LocalDateTime.parse(cd.replace("T", " ").substring(0, 19), dtFormatter));
+                e.setCreatedDate(DateTimeUtil.parseDateTime(cd.replace("T", " ").substring(0, 19)));
             } catch (Exception ex) {
             }
         }

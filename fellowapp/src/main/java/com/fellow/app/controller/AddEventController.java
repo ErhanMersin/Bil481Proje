@@ -1,9 +1,11 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
-import com.fellow.app.dao.EventDAO;
+import com.fellow.app.service.EventService;
+import com.fellow.app.service.CourseService;
 import com.fellow.app.model.Course;
 import com.fellow.app.model.Event;
+import com.fellow.app.util.NotificationUtil;
+import com.fellow.app.util.ValidationUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -25,14 +27,15 @@ public class AddEventController {
 
     private boolean isSaved = false;
     private final int DEMO_USER_ID = 1;
-    private final CourseDAO courseDAO = new CourseDAO();
+    private final EventService eventService = new EventService();
+    private final CourseService courseService = new CourseService();
 
     @FXML
     public void initialize() {
         cmbType.getItems().addAll("EXAM", "PROJECT", "HOMEWORK", "QUIZ", "LECTURE", "OTHER");
 
-        cmbCourse.getItems().setAll(courseDAO.getCoursesByUserId(DEMO_USER_ID));
-        Course defaultCourse = courseDAO.getOrCreateDefaultCourse(DEMO_USER_ID);
+        cmbCourse.getItems().setAll(courseService.getCoursesByUserId(DEMO_USER_ID));
+        Course defaultCourse = courseService.getOrCreateDefaultCourse(DEMO_USER_ID);
         if (defaultCourse != null && cmbCourse.getItems().contains(defaultCourse)) {
             cmbCourse.getSelectionModel().select(defaultCourse);
         } else if (!cmbCourse.getItems().isEmpty()) {
@@ -67,13 +70,19 @@ public class AddEventController {
     @FXML
     private void handleSave() {
         String title = txtTitle.getText().trim();
-        if (title.isEmpty()) {
-            showAlert("Error", "Title cannot be empty.");
+        if (!ValidationUtil.isValidEventTitle(title)) {
+            NotificationUtil.showValidationError("Title cannot be empty and must be less than 200 characters.");
             return;
         }
         LocalDate date = dpDate.getValue();
         if (date == null) {
-            showAlert("Error", "Please select a date.");
+            NotificationUtil.showValidationError("Please select a date.");
+            return;
+        }
+
+        String timeInput = txtTime.getText().trim();
+        if (!ValidationUtil.isNullOrEmpty(timeInput) && !ValidationUtil.isValidTimeFormat(timeInput)) {
+            NotificationUtil.showValidationError("Time must be in HH:mm format.");
             return;
         }
 
@@ -84,7 +93,7 @@ public class AddEventController {
         if (selectedCourse != null) {
             e.setCourseId(selectedCourse.getId());
         } else {
-            selectedCourse = courseDAO.getOrCreateDefaultCourse(DEMO_USER_ID);
+            selectedCourse = courseService.getOrCreateDefaultCourse(DEMO_USER_ID);
             if (selectedCourse != null) {
                 e.setCourseId(selectedCourse.getId());
             }
@@ -98,12 +107,11 @@ public class AddEventController {
         String descStr = txtDesc.getText().trim();
         e.setDescription(descStr.isEmpty() ? null : descStr);
 
-        EventDAO dao = new EventDAO();
-        if (dao.addEvent(e)) {
+        if (eventService.addEvent(e)) {
             isSaved = true;
             closeStage();
         } else {
-            showAlert("Error", "Could not save event to database.");
+            NotificationUtil.showSaveError("event");
         }
     }
 
@@ -115,13 +123,5 @@ public class AddEventController {
     private void closeStage() {
         Stage stage = (Stage) txtTitle.getScene().getWindow();
         stage.close();
-    }
-
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.show();
     }
 }

@@ -1,7 +1,7 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
-import com.fellow.app.dao.EventDAO;
+import com.fellow.app.service.CourseService;
+import com.fellow.app.service.EventService;
 import com.fellow.app.model.Event;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -23,10 +23,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class CalendarControllerTest {
 
     @Mock
-    private EventDAO eventDAO;
+    private EventService eventService;
 
     @Mock
-    private CourseDAO courseDAO;
+    private CourseService courseService;
 
     @Mock
     private Label lblMonthYear;
@@ -45,13 +45,13 @@ class CalendarControllerTest {
         calendarController = new CalendarController();
         // Use reflection to inject mocks
         try {
-            java.lang.reflect.Field eventDAOField = CalendarController.class.getDeclaredField("eventDAO");
-            eventDAOField.setAccessible(true);
-            eventDAOField.set(calendarController, eventDAO);
+            java.lang.reflect.Field eventServiceField = CalendarController.class.getDeclaredField("eventService");
+            eventServiceField.setAccessible(true);
+            eventServiceField.set(calendarController, eventService);
 
-            java.lang.reflect.Field courseDAOField = CalendarController.class.getDeclaredField("courseDAO");
-            courseDAOField.setAccessible(true);
-            courseDAOField.set(calendarController, courseDAO);
+            java.lang.reflect.Field courseServiceField = CalendarController.class.getDeclaredField("courseService");
+            courseServiceField.setAccessible(true);
+            courseServiceField.set(calendarController, courseService);
 
             java.lang.reflect.Field lblSelectedDateField = CalendarController.class.getDeclaredField("lblSelectedDate");
             lblSelectedDateField.setAccessible(true);
@@ -80,7 +80,7 @@ class CalendarControllerTest {
         event.setDescription("Desc");
         event.setCourseId(1);
         List<Event> events = Arrays.asList(event);
-        when(eventDAO.getEventsByDate(1, date)).thenReturn(events);
+        when(eventService.getEventsByDate(1, date)).thenReturn(events);
 
         // Act
         // loadAgenda is private, so we can't directly test it

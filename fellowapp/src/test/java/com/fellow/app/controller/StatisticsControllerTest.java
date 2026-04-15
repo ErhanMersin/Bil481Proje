@@ -1,6 +1,6 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
+import com.fellow.app.service.CourseService;
 import com.fellow.app.service.StatisticsService;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -24,7 +24,7 @@ class StatisticsControllerTest {
     private StatisticsService statsService;
 
     @Mock
-    private CourseDAO courseDAO;
+    private CourseService courseService;
 
     @Mock
     private ComboBox<String> cmbCourse;
@@ -44,9 +44,9 @@ class StatisticsControllerTest {
             statsServiceField.setAccessible(true);
             statsServiceField.set(statisticsController, statsService);
 
-            java.lang.reflect.Field courseDAOField = StatisticsController.class.getDeclaredField("courseDAO");
-            courseDAOField.setAccessible(true);
-            courseDAOField.set(statisticsController, courseDAO);
+            java.lang.reflect.Field courseServiceField = StatisticsController.class.getDeclaredField("courseService");
+            courseServiceField.setAccessible(true);
+            courseServiceField.set(statisticsController, courseService);
 
             java.lang.reflect.Field cmbCourseField = StatisticsController.class.getDeclaredField("cmbCourse");
             cmbCourseField.setAccessible(true);
@@ -68,7 +68,7 @@ class StatisticsControllerTest {
     @Test
     void testRefresh() {
         // Arrange
-        when(courseDAO.getCoursesByUserId(1)).thenReturn(java.util.Arrays.asList());
+        when(courseService.getCoursesByUserId(1)).thenReturn(java.util.Arrays.asList());
         // Set currentStrategy to avoid early return
         try {
             java.lang.reflect.Field currentStrategyField = StatisticsController.class
@@ -84,6 +84,6 @@ class StatisticsControllerTest {
         statisticsController.refresh();
 
         // Assert
-        verify(courseDAO).getCoursesByUserId(1);
+        verify(courseService).getCoursesByUserId(1);
     }
 }

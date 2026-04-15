@@ -1,7 +1,7 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
-import com.fellow.app.dao.EventDAO;
+import com.fellow.app.service.CourseService;
+import com.fellow.app.service.EventService;
 import com.fellow.app.model.Course;
 import com.fellow.app.model.Event;
 import javafx.scene.control.ComboBox;
@@ -25,10 +25,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class AddEventControllerTest {
 
     @Mock
-    private CourseDAO courseDAO;
+    private CourseService courseService;
 
     @Mock
-    private EventDAO eventDAO;
+    private EventService eventService;
 
     @Mock
     private TextField txtTitle;
@@ -56,9 +56,9 @@ class AddEventControllerTest {
         addEventController = new AddEventController();
         // Use reflection to inject mocks
         try {
-            java.lang.reflect.Field courseDAOField = AddEventController.class.getDeclaredField("courseDAO");
-            courseDAOField.setAccessible(true);
-            courseDAOField.set(addEventController, courseDAO);
+            java.lang.reflect.Field courseServiceField = AddEventController.class.getDeclaredField("courseService");
+            courseServiceField.setAccessible(true);
+            courseServiceField.set(addEventController, courseService);
 
             java.lang.reflect.Field txtTitleField = AddEventController.class.getDeclaredField("txtTitle");
             txtTitleField.setAccessible(true);

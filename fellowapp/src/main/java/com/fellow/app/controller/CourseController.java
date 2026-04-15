@@ -1,5 +1,6 @@
 package com.fellow.app.controller;
 
+import com.fellow.app.service.CourseService;
 import com.fellow.app.dao.CourseDAO;
 import com.fellow.app.model.Course;
 import javafx.collections.FXCollections;
@@ -22,7 +23,7 @@ public class CourseController {
     @FXML
     private ListView<Course> lvCourses;
 
-    private final CourseDAO courseDAO = new CourseDAO();
+    private final CourseService courseService = new CourseService();
     private final ObservableList<Course> courseItems = FXCollections.observableArrayList();
     private final int DEMO_USER_ID = 1;
 
@@ -48,7 +49,7 @@ public class CourseController {
                 deleteButton.setOnAction(e -> {
                     Course course = getItem();
                     if (course != null && !isReservedDefaultCourseName(course.getCourseName())) {
-                        courseDAO.deleteCourse(course.getId());
+                        courseService.deleteCourse(course.getId());
                         loadCourses();
                     }
                 });
@@ -104,7 +105,7 @@ public class CourseController {
         String colorHex = colorPicker.getValue() != null ? toHexString(colorPicker.getValue()) : "#6366f1";
 
         Course course = new Course(name, description, colorHex, DEMO_USER_ID);
-        if (courseDAO.addCourse(course)) {
+        if (courseService.addCourse(course)) {
             txtName.clear();
             txtDescription.clear();
             colorPicker.setValue(Color.web("#6366f1"));
@@ -118,12 +119,12 @@ public class CourseController {
         if (selectedCourse == null) {
             return;
         }
-        courseDAO.deleteCourse(selectedCourse.getId());
+        courseService.deleteCourse(selectedCourse.getId());
         loadCourses();
     }
 
     private void loadCourses() {
-        courseItems.setAll(courseDAO.getCoursesByUserId(DEMO_USER_ID));
+        courseItems.setAll(courseService.getCoursesByUserId(DEMO_USER_ID));
         if (!courseItems.isEmpty()) {
             lvCourses.getSelectionModel().selectFirst();
         }

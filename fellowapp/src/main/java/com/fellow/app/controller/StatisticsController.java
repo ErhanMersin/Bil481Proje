@@ -1,6 +1,6 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
+import com.fellow.app.service.CourseService;
 import com.fellow.app.model.Course;
 import com.fellow.app.service.StatisticsService;
 import javafx.event.ActionEvent;
@@ -34,7 +34,7 @@ public class StatisticsController {
     private LineChart<String, Number> chartStudyTime;
 
     private StatisticsService statsService = new StatisticsService();
-    private CourseDAO courseDAO = new CourseDAO();
+    private CourseService courseService = new CourseService();
     private StatisticsService.TimeStrategy currentStrategy;
     private final int DEMO_USER_ID = 1;
 
@@ -62,7 +62,7 @@ public class StatisticsController {
         cmbCourse.getItems().add("All");
 
         // Load all courses for the user, even if they have no study sessions
-        List<Course> courses = courseDAO.getCoursesByUserId(DEMO_USER_ID);
+        List<Course> courses = courseService.getCoursesByUserId(DEMO_USER_ID);
         for (Course course : courses) {
             cmbCourse.getItems().add(course.getCourseName());
         }

@@ -1,7 +1,7 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
-import com.fellow.app.dao.EventDAO;
+import com.fellow.app.service.EventService;
+import com.fellow.app.service.CourseService;
 import com.fellow.app.model.Course;
 import com.fellow.app.model.Event;
 import javafx.collections.FXCollections;
@@ -41,8 +41,8 @@ public class HomeController {
     @FXML
     private Button themeToggleButton;
 
-    private EventDAO eventDAO = new EventDAO();
-    private final CourseDAO courseDAO = new CourseDAO();
+    private EventService eventService = new EventService();
+    private final CourseService courseService = new CourseService();
     private ObservableList<Event> eventsList = FXCollections.observableArrayList();
     private final int DEMO_USER_ID = 1;
     private boolean darkTheme = true;
@@ -92,7 +92,7 @@ public class HomeController {
         if ("New Additions (Last Added)".equals(sortSelection)) {
             sortQuery = "created_date DESC";
         }
-        List<Event> events = eventDAO.getUpcomingEvents(DEMO_USER_ID, sortQuery);
+        List<Event> events = eventService.getUpcomingEvents(DEMO_USER_ID, sortQuery);
         eventsList.addAll(events);
     }
 
@@ -219,7 +219,7 @@ public class HomeController {
             deleteBtn.setOnAction(e -> {
                 Event item = getItem();
                 if (item != null) {
-                    new EventDAO().deleteEvent(item.getId());
+                    eventService.deleteEvent(item.getId());
                     loadEvents(); // Refresh after deletion
                 }
             });
@@ -245,7 +245,7 @@ public class HomeController {
 
                 boolean darkMode = isDarkMode();
 
-                Course course = courseDAO.getCourseById(item.getCourseId());
+                Course course = courseService.getCourseById(item.getCourseId());
                 if (course != null) {
                     courseText.setText(course.getCourseName());
                     String colorHex = getModeAdjustedCourseColor(course.getColorHex(), darkMode);

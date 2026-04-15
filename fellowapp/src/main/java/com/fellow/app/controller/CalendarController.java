@@ -1,7 +1,7 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
-import com.fellow.app.dao.EventDAO;
+import com.fellow.app.service.EventService;
+import com.fellow.app.service.CourseService;
 import com.fellow.app.model.Course;
 import com.fellow.app.model.Event;
 import javafx.fxml.FXML;
@@ -43,8 +43,8 @@ public class CalendarController {
     private YearMonth currentYearMonth;
     private LocalDate selectedDate;
     private final int DEMO_USER_ID = 1;
-    private EventDAO eventDAO = new EventDAO();
-    private CourseDAO courseDAO = new CourseDAO();
+    private EventService eventService = new EventService();
+    private CourseService courseService = new CourseService();
 
     @FXML
     public void initialize() {
@@ -86,7 +86,7 @@ public class CalendarController {
         int dayOfWeekOfFirst = firstOfMonth.getDayOfWeek().getValue(); // 1 = Monday, 7 = Sunday
 
         // Fetch all events for this month tracking
-        List<Event> monthEvents = eventDAO.getEventsByMonth(DEMO_USER_ID, yearMonth.getYear(),
+        List<Event> monthEvents = eventService.getEventsByMonth(DEMO_USER_ID, yearMonth.getYear(),
                 yearMonth.getMonthValue());
 
         int col = dayOfWeekOfFirst - 1; // 0-indexed for Monday
@@ -175,7 +175,7 @@ public class CalendarController {
 
     private void loadAgenda(LocalDate date) {
         lblSelectedDate.setText(date.getMonth().name() + " " + date.getDayOfMonth() + ", " + date.getYear());
-        List<Event> dailyEvents = eventDAO.getEventsByDate(DEMO_USER_ID, date);
+        List<Event> dailyEvents = eventService.getEventsByDate(DEMO_USER_ID, date);
         listDailyEvents.getItems().setAll(dailyEvents);
     }
 
@@ -317,7 +317,7 @@ public class CalendarController {
                 timeText.setText((item.getEventTime() != null && !item.getEventTime().isEmpty()) ? item.getEventTime()
                         : "All Day");
 
-                Course course = courseDAO.getCourseById(item.getCourseId());
+                Course course = courseService.getCourseById(item.getCourseId());
                 if (course != null) {
                     courseText.setText(course.getCourseName());
                     String colorHex = getModeAdjustedCourseColor(course.getColorHex(), darkMode);

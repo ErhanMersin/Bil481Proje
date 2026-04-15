@@ -1,7 +1,7 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
-import com.fellow.app.dao.EventDAO;
+import com.fellow.app.service.CourseService;
+import com.fellow.app.service.EventService;
 import com.fellow.app.model.Event;
 import javafx.scene.control.ListView;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,10 +21,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class HomeControllerTest {
 
     @Mock
-    private EventDAO eventDAO;
+    private EventService eventService;
 
     @Mock
-    private CourseDAO courseDAO;
+    private CourseService courseService;
 
     @Mock
     private ListView<Event> listUpcomingEvents;
@@ -37,13 +37,13 @@ class HomeControllerTest {
         homeController = new HomeController();
         // Use reflection to inject mocks
         try {
-            java.lang.reflect.Field eventDAOField = HomeController.class.getDeclaredField("eventDAO");
-            eventDAOField.setAccessible(true);
-            eventDAOField.set(homeController, eventDAO);
+            java.lang.reflect.Field eventServiceField = HomeController.class.getDeclaredField("eventService");
+            eventServiceField.setAccessible(true);
+            eventServiceField.set(homeController, eventService);
 
-            java.lang.reflect.Field courseDAOField = HomeController.class.getDeclaredField("courseDAO");
-            courseDAOField.setAccessible(true);
-            courseDAOField.set(homeController, courseDAO);
+            java.lang.reflect.Field courseServiceField = HomeController.class.getDeclaredField("courseService");
+            courseServiceField.setAccessible(true);
+            courseServiceField.set(homeController, courseService);
 
             java.lang.reflect.Field listUpcomingEventsField = HomeController.class
                     .getDeclaredField("listUpcomingEvents");
@@ -68,7 +68,7 @@ class HomeControllerTest {
         event.setDescription("Desc");
         event.setCourseId(1);
         List<Event> events = Arrays.asList(event);
-        when(eventDAO.getUpcomingEvents(1, "event_date ASC")).thenReturn(events);
+        when(eventService.getUpcomingEvents(1, "event_date ASC")).thenReturn(events);
 
         // Act
         // loadEvents is private, so we can't directly test it

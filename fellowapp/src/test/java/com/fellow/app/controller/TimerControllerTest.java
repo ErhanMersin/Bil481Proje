@@ -1,6 +1,7 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
+import com.fellow.app.service.CourseService;
+import com.fellow.app.service.StudySessionService;
 import com.fellow.app.model.Course;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,10 @@ import javafx.application.Platform;
 class TimerControllerTest {
 
     @Mock
-    private CourseDAO courseDAO;
+    private CourseService courseService;
+
+    @Mock
+    private StudySessionService studySessionService;
 
     private TimerController timerController;
 
@@ -29,9 +33,13 @@ class TimerControllerTest {
         timerController = new TimerController();
         // Inject mocks using reflection
         try {
-            java.lang.reflect.Field courseDAOField = TimerController.class.getDeclaredField("courseDAO");
-            courseDAOField.setAccessible(true);
-            courseDAOField.set(timerController, courseDAO);
+            java.lang.reflect.Field courseServiceField = TimerController.class.getDeclaredField("courseService");
+            courseServiceField.setAccessible(true);
+            courseServiceField.set(timerController, courseService);
+
+            java.lang.reflect.Field studySessionServiceField = TimerController.class.getDeclaredField("studySessionService");
+            studySessionServiceField.setAccessible(true);
+            studySessionServiceField.set(timerController, studySessionService);
 
             java.lang.reflect.Field cmbCourseField = TimerController.class.getDeclaredField("cmbCourse");
             cmbCourseField.setAccessible(true);
@@ -48,14 +56,14 @@ class TimerControllerTest {
         Course course1 = new Course(1, "Math", "#ff0000", 1);
         Course course2 = new Course(2, "Physics", "#00ff00", 1);
         List<Course> courses = Arrays.asList(course1, course2);
-        when(courseDAO.getCoursesByUserId(1)).thenReturn(courses);
-        when(courseDAO.getOrCreateDefaultCourse(1)).thenReturn(course1);
+        when(courseService.getCoursesByUserId(1)).thenReturn(courses);
+        when(courseService.getOrCreateDefaultCourse(1)).thenReturn(course1);
 
         // Act
         timerController.refresh();
 
         // Assert
-        verify(courseDAO).getCoursesByUserId(1);
+        verify(courseService).getCoursesByUserId(1);
         // Note: Since cmbCourse is FXML injected, we can't easily test UI updates
         // without TestFX
     }

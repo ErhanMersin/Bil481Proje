@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fellow.app.controller.TimerControllerTest" time="0.041" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fellow.app.integration.StudySessionIntegrationTest" time="0.542" tests="9" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="javafx.runtime.version" value="17.0.2-ea+3"/>
@@ -67,5 +67,40 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="testRefreshLoadsCourses" classname="com.fellow.app.controller.TimerControllerTest" time="0.039"/>
+  <testcase name="testGetCourseNamesStudied" classname="com.fellow.app.integration.StudySessionIntegrationTest" time="0.047">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testCourseIdResolution" classname="com.fellow.app.integration.StudySessionIntegrationTest" time="0.047">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testCompleteStudySessionWorkflow" classname="com.fellow.app.integration.StudySessionIntegrationTest" time="0.054">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testTodayStudyTimeCalculation" classname="com.fellow.app.integration.StudySessionIntegrationTest" time="0.06">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testAddStudySessionAndRetrieveStats" classname="com.fellow.app.integration.StudySessionIntegrationTest" time="0.058">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testMonthlyChartDataAggregation" classname="com.fellow.app.integration.StudySessionIntegrationTest" time="0.062">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testMultipleSessionsAccumulate" classname="com.fellow.app.integration.StudySessionIntegrationTest" time="0.065">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testWeeklyStudyTimeAggregation" classname="com.fellow.app.integration.StudySessionIntegrationTest" time="0.086">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testDailyChartDataReturnsWeekView" classname="com.fellow.app.integration.StudySessionIntegrationTest" time="0.057">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
 </testsuite>

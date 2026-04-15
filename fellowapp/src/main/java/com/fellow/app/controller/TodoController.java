@@ -1,9 +1,11 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
-import com.fellow.app.dao.TodoItemDAO;
+import com.fellow.app.service.TodoService;
+import com.fellow.app.service.CourseService;
 import com.fellow.app.model.Course;
 import com.fellow.app.model.TodoItem;
+import com.fellow.app.util.NotificationUtil;
+import com.fellow.app.util.ValidationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,8 +29,8 @@ public class TodoController {
     @FXML
     private ListView<TodoItem> lvTodos;
 
-    private CourseDAO courseDAO = new CourseDAO();
-    private TodoItemDAO todoDAO = new TodoItemDAO();
+    private TodoService todoService = new TodoService();
+    private CourseService courseService = new CourseService();
     private ObservableList<TodoItem> todoItems = FXCollections.observableArrayList();
     private ObservableList<Course> courseItems = FXCollections.observableArrayList();
     private final Course allCourse = new Course(0, "All", "#eeeeee", 1);
@@ -52,7 +54,7 @@ public class TodoController {
     }
 
     private void loadCourses() {
-        courseItems.setAll(courseDAO.getCoursesByUserId(DEMO_USER_ID));
+        courseItems.setAll(courseService.getCoursesByUserId(DEMO_USER_ID));
         ObservableList<Course> items = FXCollections.observableArrayList();
         items.add(allCourse);
         items.addAll(courseItems);
@@ -78,9 +80,9 @@ public class TodoController {
 
         List<TodoItem> list;
         if (selectedCourse.getId() == 0) {
-            list = todoDAO.getTodosByUserId(DEMO_USER_ID);
+            list = todoService.getTodosByUserId(DEMO_USER_ID);
         } else {
-            list = todoDAO.getTodosByUserAndCourse(DEMO_USER_ID, selectedCourse.getId());
+            list = todoService.getTodosByUserAndCourse(DEMO_USER_ID, selectedCourse.getId());
         }
         todoItems.addAll(list);
     }
@@ -96,13 +98,19 @@ public class TodoController {
     @FXML
     public void handleAddTask() {
         String topic = txtTopic.getText().trim();
-        if (topic.isEmpty()) {
+        if (!ValidationUtil.isValidTodoTopic(topic)) {
+            NotificationUtil.showValidationError("Topic cannot be empty and must be less than 150 characters.");
             return;
         }
+        
         String desc = txtDescription.getText().trim();
+        if (!ValidationUtil.isValidDescription(desc)) {
+            NotificationUtil.showValidationError("Description must be less than 500 characters.");
+            return;
+        }
         Course selectedCourse = cmbCourse.getValue();
         if (selectedCourse == null || selectedCourse.getId() == 0) {
-            selectedCourse = courseDAO.getOrCreateDefaultCourse(DEMO_USER_ID);
+            selectedCourse = courseService.getOrCreateDefaultCourse(DEMO_USER_ID);
         }
         if (selectedCourse == null && !courseItems.isEmpty()) {
             selectedCourse = courseItems.get(0);
@@ -113,7 +121,7 @@ public class TodoController {
         }
 
         TodoItem item = new TodoItem(selectedCourse.getId(), DEMO_USER_ID, topic, desc);
-        if (todoDAO.addTodo(item)) {
+        if (todoService.addTodo(item)) {
             txtTopic.clear();
             txtDescription.clear();
             loadTodos();
@@ -136,7 +144,7 @@ public class TodoController {
                 TodoItem item = getItem();
                 if (item != null) {
                     item.setCompleted(checkBox.isSelected());
-                    todoDAO.updateCompleted(item.getId(), item.isCompleted());
+                    todoService.updateCompleted(item.getId(), item.isCompleted());
                     updateItemAppearance(item);
                 }
             });
@@ -164,7 +172,7 @@ public class TodoController {
             btnDelete.setOnAction(e -> {
                 TodoItem item = getItem();
                 if (item != null) {
-                    todoDAO.deleteTodo(item.getId());
+                    todoService.deleteTodo(item.getId());
                     loadTodos();
                 }
             });
@@ -187,7 +195,7 @@ public class TodoController {
             }
 
             boolean darkMode = isDarkMode();
-            Course course = courseDAO.getCourseById(item.getCourseId());
+            Course course = courseService.getCourseById(item.getCourseId());
             if (course != null) {
                 courseLabel.setText(course.getCourseName());
                 String textColor = darkMode ? "#FFFFFF" : "#222222";

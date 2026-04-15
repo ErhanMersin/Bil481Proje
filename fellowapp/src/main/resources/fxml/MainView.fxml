@@ -20,20 +20,13 @@
     <top>
         <HBox alignment="CENTER_LEFT" spacing="12" styleClass="top-bar">
             <Label text="Fellow" styleClass="app-title"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button fx:id="navButtonHome"     text="Home"       onAction="#showHome"       styleClass="nav-button, selected-nav-button"/>
-            <Button fx:id="navButtonCalendar" text="Calendar"   onAction="#showCalendar"   styleClass="nav-button"/>
-            <Button fx:id="navButtonCourses"  text="Add Course"  onAction="#showCourses"    styleClass="nav-button"/>
-            <Button fx:id="navButtonPomodoro" text="Timer"      onAction="#showPomodoro"   styleClass="nav-button"/>
-            <Button fx:id="navButtonTodo"     text="ToDo"       onAction="#showTodo"       styleClass="nav-button"/>
-            <Button fx:id="navButtonStats"    text="Statistics" onAction="#showStatistics" styleClass="nav-button"/>
-            
-            <!-- Mini Timer Widget in the Navbar -->
-            <HBox fx:id="miniTimerWidget" alignment="CENTER" visible="false" managed="false" onMouseClicked="#disableMiniTimer"
-                  styleClass="mini-timer-widget">
-                <Label fx:id="miniTimerLabel" styleClass="mini-timer-label"/>
-            </HBox>
-        </HBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="navButtonHome" text="Home" onAction="#showHome" styleClass="nav-button selected-nav-button"/>
+            <Button fx:id="navButtonCalendar" text="Calendar" onAction="#showCalendar" styleClass="nav-button"/>
+            <Button fx:id="navButtonPomodoro" text="Timer" onAction="#showPomodoro" styleClass="nav-button"/>
+            <Button fx:id="navButtonTodo" text="ToDo" onAction="#showTodo" styleClass="nav-button"/>
+            <Button fx:id="navButtonStats" text="Statistics" onAction="#showStatistics" styleClass="nav-button"/>
+        </HBox> 
     </top>
 
     <center>
@@ -54,16 +47,9 @@
                     </content>
                 </Tab>
 
-                <Tab fx:id="tabCourses" text="Dersler">
-                    <content>
-                        <fx:include fx:id="courseView" source="CourseView.fxml"/>
-                    </content>
-                </Tab>
-
-                <!-- Tab text changed: Pomodoro → Timer -->
                 <Tab fx:id="tabPomodoro" text="Timer">
                     <content>
-                        <fx:include fx:id="pomodoroView" source="TimerView.fxml"/>
+                        <fx:include fx:id="timerView" source="TimerView.fxml"/>
                     </content>
                 </Tab>
 
@@ -85,7 +71,12 @@
 
     <bottom>
         <HBox alignment="CENTER_RIGHT" spacing="8" styleClass="bottom-bar">
-            <Region HBox.hgrow="ALWAYS"/>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="themeToggleButton"
+                    mnemonicParsing="false"
+                    onAction="#handleThemeToggle"
+                    text="Light Mode"
+                    styleClass="theme-toggle-button"/>
         </HBox>
     </bottom>
 </BorderPane>

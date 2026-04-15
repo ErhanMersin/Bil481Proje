@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fellow.app.controller.TimerControllerTest" time="0.041" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fellow.app.integration.StatisticsServiceIntegrationTest" time="0.579" tests="10" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="javafx.runtime.version" value="17.0.2-ea+3"/>
@@ -67,5 +67,44 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="testRefreshLoadsCourses" classname="com.fellow.app.controller.TimerControllerTest" time="0.039"/>
+  <testcase name="testDailyStrategyCalculatesCorrectly" classname="com.fellow.app.integration.StatisticsServiceIntegrationTest" time="0.058">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testChartDataDailyStrategyReturnsWeekData" classname="com.fellow.app.integration.StatisticsServiceIntegrationTest" time="0.046">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testGetCourseIdByNameResolvesCorrectly" classname="com.fellow.app.integration.StatisticsServiceIntegrationTest" time="0.048">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testMonthlyStrategyAggregatesAllMonthData" classname="com.fellow.app.integration.StatisticsServiceIntegrationTest" time="0.072">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testTotalStrategyAggregatesAllData" classname="com.fellow.app.integration.StatisticsServiceIntegrationTest" time="0.062">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testNoStudyRecordsReturnsAppropriateMessage" classname="com.fellow.app.integration.StatisticsServiceIntegrationTest" time="0.044">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testCompleteWorkflowAddMultipleSessionsAndAnalyze" classname="com.fellow.app.integration.StatisticsServiceIntegrationTest" time="0.069">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testGetStudiedCourseNamesTodayReturnsAddedCourses" classname="com.fellow.app.integration.StatisticsServiceIntegrationTest" time="0.057">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testWeeklyStrategyAggregatesMultipleDays" classname="com.fellow.app.integration.StatisticsServiceIntegrationTest" time="0.064">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
+  <testcase name="testChartDataTotalStrategyReturnsMonthlyData" classname="com.fellow.app.integration.StatisticsServiceIntegrationTest" time="0.049">
+    <system-out><![CDATA[✅ Database created successfully!
+]]></system-out>
+  </testcase>
 </testsuite>

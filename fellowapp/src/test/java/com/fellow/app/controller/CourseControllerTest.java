@@ -1,6 +1,6 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
+import com.fellow.app.service.CourseService;
 import com.fellow.app.model.Course;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -20,7 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 class CourseControllerTest {
 
     @Mock
-    private CourseDAO courseDAO;
+    private CourseService courseService;
 
     @Mock
     private TextField txtName;
@@ -39,9 +39,9 @@ class CourseControllerTest {
         courseController = new CourseController();
         // Use reflection to inject mocks
         try {
-            java.lang.reflect.Field courseDAOField = CourseController.class.getDeclaredField("courseDAO");
-            courseDAOField.setAccessible(true);
-            courseDAOField.set(courseController, courseDAO);
+            java.lang.reflect.Field courseServiceField = CourseController.class.getDeclaredField("courseService");
+            courseServiceField.setAccessible(true);
+            courseServiceField.set(courseController, courseService);
 
             java.lang.reflect.Field txtNameField = CourseController.class.getDeclaredField("txtName");
             txtNameField.setAccessible(true);
@@ -71,13 +71,13 @@ class CourseControllerTest {
         // Arrange
         when(txtName.getText()).thenReturn("New Course");
         when(txtDescription.getText()).thenReturn("Description");
-        when(courseDAO.addCourse(any(Course.class))).thenReturn(true);
+        when(courseService.addCourse(any(Course.class))).thenReturn(true);
 
         // Act
         courseController.handleAddCourse();
 
         // Assert
-        verify(courseDAO).addCourse(any(Course.class));
+        verify(courseService).addCourse(any(Course.class));
         verify(txtName).clear();
         verify(txtDescription).clear();
     }
@@ -91,6 +91,6 @@ class CourseControllerTest {
         courseController.handleAddCourse();
 
         // Assert
-        verify(courseDAO, never()).addCourse(any(Course.class));
+        verify(courseService, never()).addCourse(any(Course.class));
     }
 }

@@ -1,7 +1,7 @@
 package com.fellow.app.controller;
 
-import com.fellow.app.dao.CourseDAO;
-import com.fellow.app.dao.TodoItemDAO;
+import com.fellow.app.service.TodoService;
+import com.fellow.app.service.CourseService;
 import com.fellow.app.model.Course;
 import com.fellow.app.model.TodoItem;
 import javafx.collections.FXCollections;
@@ -25,10 +25,10 @@ import javafx.application.Platform;
 class TodoControllerTest {
 
     @Mock
-    private CourseDAO courseDAO;
+    private CourseService courseService;
 
     @Mock
-    private TodoItemDAO todoItemDAO;
+    private TodoService todoService;
 
     @Mock
     private TextField txtTopic;
@@ -47,13 +47,13 @@ class TodoControllerTest {
         todoController = new TodoController();
         // Use reflection to inject mocks
         try {
-            java.lang.reflect.Field courseDAOField = TodoController.class.getDeclaredField("courseDAO");
-            courseDAOField.setAccessible(true);
-            courseDAOField.set(todoController, courseDAO);
+            java.lang.reflect.Field courseServiceField = TodoController.class.getDeclaredField("courseService");
+            courseServiceField.setAccessible(true);
+            courseServiceField.set(todoController, courseService);
 
-            java.lang.reflect.Field todoDAOField = TodoController.class.getDeclaredField("todoDAO");
-            todoDAOField.setAccessible(true);
-            todoDAOField.set(todoController, todoItemDAO);
+            java.lang.reflect.Field todoServiceField = TodoController.class.getDeclaredField("todoService");
+            todoServiceField.setAccessible(true);
+            todoServiceField.set(todoController, todoService);
 
             java.lang.reflect.Field cmbCourseField = TodoController.class.getDeclaredField("cmbCourse");
             cmbCourseField.setAccessible(true);
@@ -91,13 +91,13 @@ class TodoControllerTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        when(todoItemDAO.addTodo(any(TodoItem.class))).thenReturn(true);
+        when(todoService.addTodo(any(TodoItem.class))).thenReturn(true);
 
         // Act
         todoController.handleAddTask();
 
         // Assert
-        verify(todoItemDAO).addTodo(any(TodoItem.class));
+        verify(todoService).addTodo(any(TodoItem.class));
         verify(txtTopic).clear();
         verify(txtDescription).clear();
         // Note: loadTodos() would be called, but since lvTodos is mocked, we can't
@@ -113,7 +113,7 @@ class TodoControllerTest {
         todoController.handleAddTask();
 
         // Assert
-        verify(todoItemDAO, never()).addTodo(any(TodoItem.class));
+        verify(todoService, never()).addTodo(any(TodoItem.class));
         verify(txtTopic, never()).clear();
     }
 }
