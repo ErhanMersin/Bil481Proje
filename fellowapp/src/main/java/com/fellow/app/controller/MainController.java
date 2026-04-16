@@ -20,7 +20,13 @@ public class MainController {
     @FXML
     private Tab tabHome;
     @FXML
+    private Tab tabCourses;
+    @FXML
+    private Tab tabCalendar;
+    @FXML
     private Tab tabPomodoro;
+    @FXML
+    private Tab tabTodo;
     @FXML
     private Tab tabStats;
 
@@ -33,6 +39,8 @@ public class MainController {
     // Injected by fx:include (JavaFX names them <fx:id>Controller)
     @FXML
     private HomeController homeViewController;
+    @FXML
+    private CourseController coursesViewController;
     @FXML
     private StatisticsController statisticsViewController;
     @FXML
@@ -77,6 +85,9 @@ public class MainController {
                     if ("tabHome".equals(newTab.getId()) && homeViewController != null) {
                         homeViewController.refresh();
                     }
+                    if ("tabCourses".equals(newTab.getId()) && coursesViewController != null) {
+                        coursesViewController.refresh();
+                    }
                     if ("tabStats".equals(newTab.getId()) && statisticsViewController != null) {
                         statisticsViewController.refresh();
                     }
@@ -101,15 +112,13 @@ public class MainController {
     @FXML
     public void showCourses(ActionEvent event) {
         setSelectedNavButton(navButtonCourses);
-        // TODO: Add Courses tab or navigate to appropriate view
-        // For now, navigate to Calendar tab
-        mainTabPane.getSelectionModel().select(1);
+        mainTabPane.getSelectionModel().select(tabCourses);
     }
 
     @FXML
     public void showCalendar(ActionEvent event) {
         setSelectedNavButton(navButtonCalendar);
-        mainTabPane.getSelectionModel().select(1);
+        mainTabPane.getSelectionModel().select(tabCalendar);
     }
 
     @FXML
@@ -121,7 +130,7 @@ public class MainController {
     @FXML
     public void showTodo(ActionEvent event) {
         setSelectedNavButton(navButtonTodo);
-        mainTabPane.getSelectionModel().select(3);
+        mainTabPane.getSelectionModel().select(tabTodo);
     }
 
     @FXML

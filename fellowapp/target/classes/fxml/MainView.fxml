@@ -48,6 +48,12 @@
                     </content>
                 </Tab>
 
+                <Tab fx:id="tabCourses" text="Courses">
+                    <content>
+                        <fx:include fx:id="coursesView" source="CourseView.fxml"/>
+                    </content>
+                </Tab>
+
                 <Tab fx:id="tabCalendar" text="Calendar">
                     <content>
                         <fx:include fx:id="calendarView" source="CalendarView.fxml"/>
