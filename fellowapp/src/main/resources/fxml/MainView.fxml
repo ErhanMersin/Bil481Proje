@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane
     maxHeight="-Infinity" maxWidth="-Infinity"
@@ -22,11 +23,16 @@
             <Label text="Fellow" styleClass="app-title"/>
             <Region HBox.hgrow="ALWAYS" />
             <Button fx:id="navButtonHome" text="Home" onAction="#showHome" styleClass="nav-button selected-nav-button"/>
+            <Button fx:id="navButtonCourses" text="Courses" onAction="#showCourses" styleClass="nav-button"/>
             <Button fx:id="navButtonCalendar" text="Calendar" onAction="#showCalendar" styleClass="nav-button"/>
-            <Button fx:id="navButtonCourse" text="Courses" onAction="#showCourse" styleClass="nav-button"/>
             <Button fx:id="navButtonPomodoro" text="Timer" onAction="#showPomodoro" styleClass="nav-button"/>
             <Button fx:id="navButtonTodo" text="ToDo" onAction="#showTodo" styleClass="nav-button"/>
             <Button fx:id="navButtonStats" text="Statistics" onAction="#showStatistics" styleClass="nav-button"/>
+            
+            <!-- Mini Timer Widget -->
+            <VBox fx:id="miniTimerContainer" styleClass="mini-timer-container" visible="false" spacing="4">
+                <Label fx:id="miniTimerLabel" text="25:00" styleClass="mini-timer-label"/>
+            </VBox>
         </HBox> 
     </top>
 
@@ -45,12 +51,6 @@
                 <Tab fx:id="tabCalendar" text="Calendar">
                     <content>
                         <fx:include fx:id="calendarView" source="CalendarView.fxml"/>
-                    </content>
-                </Tab>
-
-                <Tab fx:id="tabCourse" text="Courses">
-                    <content>
-                        <fx:include fx:id="courseView" source="CourseView.fxml"/>
                     </content>
                 </Tab>
 

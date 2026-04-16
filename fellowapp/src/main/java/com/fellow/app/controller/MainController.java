@@ -4,8 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.VBox;
 
 /**
  * Main controller — manages the top navigation bar and tab switching.
@@ -18,22 +20,23 @@ public class MainController {
     @FXML
     private Tab tabHome;
     @FXML
-    private Tab tabCalendar;
-    @FXML
-    private Tab tabCourse;
-    @FXML
     private Tab tabPomodoro;
     @FXML
     private Tab tabStats;
 
+    // ── Mini Timer Widget ─────────────────────────────────────────────────────
     @FXML
-    private Tab tabTodo;
+    private VBox miniTimerContainer;
+    @FXML
+    private Label miniTimerLabel;
 
     // Injected by fx:include (JavaFX names them <fx:id>Controller)
     @FXML
     private HomeController homeViewController;
     @FXML
     private StatisticsController statisticsViewController;
+    @FXML
+    private TimerController timerViewController;
 
     // ── Navigation buttons ────────────────────────────────────────────────────
     @FXML
@@ -41,9 +44,9 @@ public class MainController {
     @FXML
     private Button navButtonHome;
     @FXML
-    private Button navButtonCalendar;
+    private Button navButtonCourses;
     @FXML
-    private Button navButtonCourse;
+    private Button navButtonCalendar;
     @FXML
     private Button navButtonPomodoro;
     @FXML
@@ -60,6 +63,11 @@ public class MainController {
     public void initialize() {
         // Open on Home tab
         mainTabPane.getSelectionModel().select(tabHome);
+
+        // Pass MainController reference to TimerController for mini timer management
+        if (timerViewController != null) {
+            timerViewController.setMainController(this);
+        }
 
         // Refresh sub-controllers when their tab is selected
         mainTabPane.getSelectionModel().selectedItemProperty().addListener(
@@ -91,15 +99,17 @@ public class MainController {
     }
 
     @FXML
-    public void showCalendar(ActionEvent event) {
-        setSelectedNavButton(navButtonCalendar);
-        mainTabPane.getSelectionModel().select(tabCalendar);
+    public void showCourses(ActionEvent event) {
+        setSelectedNavButton(navButtonCourses);
+        // TODO: Add Courses tab or navigate to appropriate view
+        // For now, navigate to Calendar tab
+        mainTabPane.getSelectionModel().select(1);
     }
 
     @FXML
-    public void showCourse(ActionEvent event) {
-        setSelectedNavButton(navButtonCourse);
-        mainTabPane.getSelectionModel().select(tabCourse);
+    public void showCalendar(ActionEvent event) {
+        setSelectedNavButton(navButtonCalendar);
+        mainTabPane.getSelectionModel().select(1);
     }
 
     @FXML
@@ -111,7 +121,7 @@ public class MainController {
     @FXML
     public void showTodo(ActionEvent event) {
         setSelectedNavButton(navButtonTodo);
-        mainTabPane.getSelectionModel().select(tabTodo);
+        mainTabPane.getSelectionModel().select(3);
     }
 
     @FXML
@@ -146,6 +156,37 @@ public class MainController {
         if (selectedNavButton != null
                 && !selectedNavButton.getStyleClass().contains("selected-nav-button")) {
             selectedNavButton.getStyleClass().add("selected-nav-button");
+        }
+    }
+
+    // ── Mini Timer Widget Management ──────────────────────────────────────────
+
+    /**
+     * Show the mini timer widget in the top bar.
+     */
+    public void showMiniTimer() {
+        if (miniTimerContainer != null) {
+            miniTimerContainer.setVisible(true);
+        }
+    }
+
+    /**
+     * Hide the mini timer widget in the top bar.
+     */
+    public void hideMiniTimer() {
+        if (miniTimerContainer != null) {
+            miniTimerContainer.setVisible(false);
+        }
+    }
+
+    /**
+     * Update the mini timer display with the current time.
+     *
+     * @param timeText The formatted time string (e.g., "24:59")
+     */
+    public void updateMiniTimerDisplay(String timeText) {
+        if (miniTimerLabel != null) {
+            miniTimerLabel.setText(timeText);
         }
     }
 }

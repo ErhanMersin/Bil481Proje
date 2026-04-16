@@ -50,9 +50,5 @@
 
             </children>
         </VBox>
-
-        <!-- Mini mode button -->
-        <Button AnchorPane.topAnchor="15.0" AnchorPane.rightAnchor="15.0"
-                onAction="#handleMiniMode" text="⤢" styleClass="icon-button"/>
     </children>
 </AnchorPane>

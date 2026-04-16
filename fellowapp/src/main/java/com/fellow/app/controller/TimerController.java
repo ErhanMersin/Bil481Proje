@@ -29,6 +29,9 @@ public class TimerController {
     private StudySessionService studySessionService = new StudySessionService();
     private final int DEMO_USER_ID = 1;
 
+    // Reference to main controller for mini timer management
+    private MainController mainController;
+
     private Timeline timeline;
     private int timeSeconds = 25 * 60;
     private int defaultTimeSeconds = 25 * 60;
@@ -39,6 +42,16 @@ public class TimerController {
     public void initialize() {
         System.out.println("TimerController initialized with smart save feature.");
         refresh();
+    }
+
+    /**
+     * Set the MainController reference for managing the mini timer widget.
+     * This is called from MainController during initialization.
+     *
+     * @param mainController The MainController instance
+     */
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
     }
 
     public void refresh() {
@@ -68,6 +81,12 @@ public class TimerController {
         isRunning = true;
         timerFinished = false;
         startButton.setText("Running...");
+        
+        // Show mini timer in top bar
+        if (mainController != null) {
+            mainController.showMiniTimer();
+        }
+        
         System.out.println("Timer started.");
 
         if (timeline == null) {
@@ -148,6 +167,11 @@ public class TimerController {
         timeSeconds = defaultTimeSeconds;
         updateLabel();
         startButton.setText("Start");
+        
+        // Hide mini timer from top bar
+        if (mainController != null) {
+            mainController.hideMiniTimer();
+        }
     }
 
     private void saveSessionToDatabase(int durationSeconds) {
@@ -191,29 +215,9 @@ public class TimerController {
         String formattedTime = String.format("%02d:%02d", minutes, seconds);
         timerLabel.setText(formattedTime);
 
-        // Sync with the Top Bar mini widget if running
-        if (timerLabel.getScene() != null) {
-            Label miniTimerLbl = (Label) timerLabel.getScene().lookup("#miniTimerLabel");
-            if (miniTimerLbl != null) {
-                miniTimerLbl.setText(formattedTime);
-            }
+        // Update the mini timer in the top bar
+        if (mainController != null && isRunning) {
+            mainController.updateMiniTimerDisplay(formattedTime);
         }
-    }
-
-    @FXML
-    public void handleMiniMode() {
-        if (timerLabel.getScene() == null)
-            return;
-
-        // Find and display the widget box securely in top bar
-        javafx.scene.layout.HBox widget = (javafx.scene.layout.HBox) timerLabel.getScene().lookup("#miniTimerWidget");
-        if (widget != null) {
-            widget.setVisible(true);
-            widget.setManaged(true);
-        }
-
-        TabPane tabPane = (TabPane) timerLabel.getScene().lookup("#mainTabPane");
-        if (tabPane != null)
-            tabPane.getSelectionModel().select(0);
     }
 }
