@@ -18,9 +18,16 @@ public class MainController {
     @FXML
     private Tab tabHome;
     @FXML
+    private Tab tabCalendar;
+    @FXML
+    private Tab tabCourse;
+    @FXML
     private Tab tabPomodoro;
     @FXML
     private Tab tabStats;
+
+    @FXML
+    private Tab tabTodo;
 
     // Injected by fx:include (JavaFX names them <fx:id>Controller)
     @FXML
@@ -35,6 +42,8 @@ public class MainController {
     private Button navButtonHome;
     @FXML
     private Button navButtonCalendar;
+    @FXML
+    private Button navButtonCourse;
     @FXML
     private Button navButtonPomodoro;
     @FXML
@@ -84,7 +93,13 @@ public class MainController {
     @FXML
     public void showCalendar(ActionEvent event) {
         setSelectedNavButton(navButtonCalendar);
-        mainTabPane.getSelectionModel().select(1);
+        mainTabPane.getSelectionModel().select(tabCalendar);
+    }
+
+    @FXML
+    public void showCourse(ActionEvent event) {
+        setSelectedNavButton(navButtonCourse);
+        mainTabPane.getSelectionModel().select(tabCourse);
     }
 
     @FXML
@@ -96,7 +111,7 @@ public class MainController {
     @FXML
     public void showTodo(ActionEvent event) {
         setSelectedNavButton(navButtonTodo);
-        mainTabPane.getSelectionModel().select(3);
+        mainTabPane.getSelectionModel().select(tabTodo);
     }
 
     @FXML
